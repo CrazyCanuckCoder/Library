@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Library.WPFControls.FilePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="24" d:DesignWidth="540">
+    <DockPanel LastChildFill="True">
+        <Label x:Name="LabelDescription" DockPanel.Dock="Left" Content="Description" VerticalContentAlignment="Center" Padding="5,0" />
+        <Button x:Name="ButtonBrowse" DockPanel.Dock="Right" Content="..." Padding="8,2" ToolTip="Browse" Margin="2" Click="ButtonBrowse_OnClick" />
+        <TextBox x:Name="TextBoxFilePath" Margin="2" Padding="1,0" />
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Library.WPFControls.StringListMaker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="210">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/UIDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+
+        <!-- Description Label -->
+
+        <Label x:Name="LabelDescription" DockPanel.Dock="Top" Content="Add description here..." Height="25" VerticalAlignment="Top"/>
+
+        <!-- String Entry Controls -->
+
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="True" Height="34">
+            <Button x:Name="ButtonDeleteEntry" 
+                    DockPanel.Dock="Right" 
+                    Style="{StaticResource ImageButtonStyle}" 
+                    VerticalAlignment="Top" 
+                    Height="34" 
+                    Width="34" 
+                    Click="ButtonDeleteEntry_OnClick" >
+                <Image Source="Images/delete.png" IsEnabled="False" />
+            </Button>
+            <Button x:Name="ButtonAddEntry" 
+                    DockPanel.Dock="Right" 
+                    Style="{StaticResource ImageButtonStyle}" 
+                    VerticalAlignment="Top" 
+                    Height="34" 
+                    Width="34"
+                    Click="ButtonAddEntry_OnClick" >
+                <Image Source="Images/add.png" IsEnabled="False" />
+            </Button>
+            <TextBox x:Name="TextBoxEntries" Margin="1,5,5,5" KeyDown="TextBoxEntries_OnKeyDown" TextChanged="TextBoxEntries_OnTextChanged" Padding="1" />
+        </DockPanel>
+
+        <!-- List Box -->
+
+        <ListBox x:Name="ListBoxEntries" Margin="1" SelectionChanged="ListBoxEntries_OnSelectionChanged" />
+    </DockPanel>
+</UserControl>

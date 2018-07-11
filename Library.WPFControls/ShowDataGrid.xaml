@@ -1,0 +1,44 @@
+﻿<Window xmlns:WPFControls="clr-namespace:Library.WPFControls"  x:Class="Library.WPFControls.ShowDataGrid"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShowDataGrid" Height="600" Width="706" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/UIDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True" Height="49">
+            <Button x:Name="ButtonSettings" 
+                    DockPanel.Dock="Right" 
+                    Style="{StaticResource ImageButtonStyle}" 
+                    VerticalAlignment="Top" 
+                    Height="34" 
+                    Width="34"
+                    Margin="7" 
+                    ToolTip="Modify Settings" 
+                    IsEnabled="False"
+                    Click="ButtonSettings_OnClick" >
+                <Image Source="Images/setting_tools.png" />
+            </Button>
+            <Button x:Name="ButtonExportCSV" 
+                    DockPanel.Dock="Right" 
+                    Style="{StaticResource ImageButtonStyle}" 
+                    VerticalAlignment="Top" 
+                    Height="34" 
+                    Width="34"
+                    Margin="7"  
+                    IsEnabled="False"
+                    ToolTip="Create Export File"
+                    Click="ButtonExportCSV_OnClick" >
+                <Image Source="Images/export_excel.png" />
+            </Button>
+            <WPFControls:FilePicker x:Name="FilePickerCSV" Height="24" Margin="10,0" Prompt="Export To:" SelectionMode="Save" SelectionFilter="Excel Export Files|*.csv|All Files|*.*" />
+        </DockPanel>
+        <DataGrid x:Name="DataGridMain" />
+    </DockPanel>
+</Window>
