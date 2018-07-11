@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D0F98842-B76D-446C-BF4D-1E328F827D29}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Library.WinForms</RootNamespace>
+    <AssemblyName>Library.WinForms</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppSettingsManager.cs" />
+    <Compile Include="BaseDataEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseDataEntryForm.Designer.cs">
+      <DependentUpon>BaseDataEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDataPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseDataPanel.Designer.cs">
+      <DependentUpon>BaseDataPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseSelectionForm.Designer.cs">
+      <DependentUpon>BaseSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseSelectionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseSelectionPanel.Designer.cs">
+      <DependentUpon>BaseSelectionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BorderPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CheckboxInput.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CheckedListBoxSelectAll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CheckedListBoxSelectAll.Designer.cs">
+      <DependentUpon>CheckedListBoxSelectAll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColourInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColourInput.Designer.cs">
+      <DependentUpon>ColourInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComboBoxInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ComboBoxInput.Designer.cs">
+      <DependentUpon>ComboBoxInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPrinter.cs" />
+    <Compile Include="ControlPrinterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlPrinterForm.Designer.cs">
+      <DependentUpon>ControlPrinterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DateInput.Designer.cs">
+      <DependentUpon>DateInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateRangeSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DateRangeSelector.Designer.cs">
+      <DependentUpon>DateRangeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditMenuHelper.cs" />
+    <Compile Include="FileInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileInput.Designer.cs">
+      <DependentUpon>FileInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilePicker.Designer.cs">
+      <DependentUpon>FilePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowLayoutPanelList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FlowLayoutPanelList.designer.cs">
+      <DependentUpon>FlowLayoutPanelList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowLayoutPanelListSelectable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FlowLayoutPanelListSelectable.designer.cs">
+      <DependentUpon>FlowLayoutPanelListSelectable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageButton.designer.cs">
+      <DependentUpon>ImageButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IPAddressInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IPAddressInput.Designer.cs">
+      <DependentUpon>IPAddressInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LabelledInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LabelledInput.Designer.cs">
+      <DependentUpon>LabelledInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaskedTextInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MaskedTextInput.Designer.cs">
+      <DependentUpon>MaskedTextInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MillersColumn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MillersColumn.Designer.cs">
+      <DependentUpon>MillersColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumericInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NumericInput.Designer.cs">
+      <DependentUpon>NumericInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RadioGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RadioGroup.Designer.cs">
+      <DependentUpon>RadioGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectableDataEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectableDataEntryForm.Designer.cs">
+      <DependentUpon>SelectableDataEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectableItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectableItem.designer.cs">
+      <DependentUpon>SelectableItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDataGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowDataGrid.Designer.cs">
+      <DependentUpon>ShowDataGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDataGridSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowDataGridSettingsForm.Designer.cs">
+      <DependentUpon>ShowDataGridSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StringListMaker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StringListMaker.Designer.cs">
+      <DependentUpon>StringListMaker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TextInput.Designer.cs">
+      <DependentUpon>TextInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSpanInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSpanInput.Designer.cs">
+      <DependentUpon>TimeSpanInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchErrorProvider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TouchErrorProvider.Designer.cs">
+      <DependentUpon>TouchErrorProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TwoColumnComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TwoColumnComboBox.Designer.cs">
+      <DependentUpon>TwoColumnComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utility.cs" />
+    <Compile Include="VerticalProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VerticalProgressBar.Designer.cs">
+      <DependentUpon>VerticalProgressBar.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseDataEntryForm.resx">
+      <DependentUpon>BaseDataEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseSelectionForm.resx">
+      <DependentUpon>BaseSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseSelectionPanel.resx">
+      <DependentUpon>BaseSelectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BorderPanel.resx">
+      <DependentUpon>BorderPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckedListBoxSelectAll.resx">
+      <DependentUpon>CheckedListBoxSelectAll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColourInput.resx">
+      <DependentUpon>ColourInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComboBoxInput.resx">
+      <DependentUpon>ComboBoxInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPrinterForm.resx">
+      <DependentUpon>ControlPrinterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateInput.resx">
+      <DependentUpon>DateInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateRangeSelector.resx">
+      <DependentUpon>DateRangeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileInput.resx">
+      <DependentUpon>FileInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilePicker.resx">
+      <DependentUpon>FilePicker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlowLayoutPanelList.resx">
+      <DependentUpon>FlowLayoutPanelList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageButton.resx">
+      <DependentUpon>ImageButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IPAddressInput.resx">
+      <DependentUpon>IPAddressInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelledInput.resx">
+      <DependentUpon>LabelledInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaskedTextInput.resx">
+      <DependentUpon>MaskedTextInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MillersColumn.resx">
+      <DependentUpon>MillersColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumericInput.resx">
+      <DependentUpon>NumericInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumericTextBox.resx">
+      <DependentUpon>NumericTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RadioGroup.resx">
+      <DependentUpon>RadioGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectableDataEntryForm.resx">
+      <DependentUpon>SelectableDataEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectableItem.resx">
+      <DependentUpon>SelectableItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowDataGrid.resx">
+      <DependentUpon>ShowDataGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowDataGridSettingsForm.resx">
+      <DependentUpon>ShowDataGridSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringListMaker.resx">
+      <DependentUpon>StringListMaker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextInput.resx">
+      <DependentUpon>TextInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSpanInput.resx">
+      <DependentUpon>TimeSpanInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchErrorProvider.resx">
+      <DependentUpon>TouchErrorProvider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerticalProgressBar.resx">
+      <DependentUpon>VerticalProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library.csproj">
+      <Project>{8b0eef7a-a7f6-4f6b-b76f-ee2633aa458b}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\accept_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application_form_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application_form_edit_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ErrorIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\export_excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_as.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_as_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting_tools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_disabled.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
