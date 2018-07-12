@@ -1,9 +1,6 @@
-﻿#region
-
+﻿using System;
 using System.Collections;
 using System.Windows.Forms;
-
-#endregion
 
 namespace Library
 {
@@ -14,25 +11,12 @@ namespace Library
     /// 
     public class ListViewColumnSorter : IComparer
     {
-        /// <summary>
-        /// Class constructor.  Initializes various elements
-        /// </summary>
-        /// 
         public ListViewColumnSorter()
         {
         }
 
-        /// <summary>
-        /// Specifies the column to be sorted
-        /// </summary>
-        /// 
-        private int _columnToSort = 0;
 
-        /// <summary>
-        /// Specifies the order in which to sort (i.e. 'Ascending').
-        /// </summary>
-        /// 
-        private SortOrder _orderOfSort = SortOrder.None;
+
 
         /// <summary>
         /// Case insensitive comparer object
@@ -40,25 +24,22 @@ namespace Library
         /// 
         private readonly CaseInsensitiveComparer _objectCompare = new CaseInsensitiveComparer();
 
+
+
+
         /// <summary>
-        /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
+        /// Gets or sets the index of the column to which to apply the sorting operation (Defaults to '0').
         /// </summary>
         /// 
-        public int SortColumn
-        {
-            set { _columnToSort = value; }
-            get { return _columnToSort; }
-        }
+        public int SortColumn { set; get; } = 0;
 
         /// <summary>
         /// Gets or sets the order of sorting to apply (for example, 'Ascending' or 'Descending').
         /// </summary>
         /// 
-        public SortOrder Order
-        {
-            set { _orderOfSort = value; }
-            get { return _orderOfSort; }
-        }
+        public SortOrder Order { set; get; } = SortOrder.None;
+
+
 
 
         /// <summary>
@@ -79,33 +60,64 @@ namespace Library
         /// less than 'y' and positive if 'x' is greater than 'y'
         /// </returns>
         /// 
+        /// <exception cref="ArgumentNullException" />
+        /// 
         public int Compare(object x, object y)
+        {
+            return this.Compare((ListViewItem) x, (ListViewItem) y);
+        }
+
+        /// <summary>
+        /// This method is inherited from the IComparer interface.  It compares the 
+        /// two objects passed using a case insensitive comparison.
+        /// </summary>
+        /// 
+        /// <param name="FirstItem">
+        /// First list view item to be compared.
+        /// </param>
+        /// 
+        /// <param name="SecondItem">
+        /// Second list view item to be compared.
+        /// </param>
+        /// 
+        /// <returns>
+        /// The result of the comparison. "0" if equal, negative if 'x' is
+        /// less than 'y' and positive if 'x' is greater than 'y'
+        /// </returns>
+        /// 
+        /// <exception cref="ArgumentNullException" />
+        /// 
+        public int Compare(ListViewItem FirstItem, ListViewItem SecondItem)
         {
             int compareResult = 0;
 
             // Cast the objects to be compared to ListViewItem objects
 
-            var listviewX = (ListViewItem) x;
-            var listviewY = (ListViewItem) y;
-
-            // Compare the two items
-
-            compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text,
-                                                   listviewY.SubItems[_columnToSort].Text);
-
-            // Calculate correct return value based on specified sort order
-
-            if (_orderOfSort == SortOrder.Descending)
+            if (FirstItem != null && SecondItem != null)
             {
-                // Descending sort is selected, return negative result of compare operation
+                // Compare the two items
 
-                compareResult = (-compareResult);
+                compareResult = this._objectCompare.Compare(FirstItem .SubItems[this.SortColumn].Text,
+                                                            SecondItem.SubItems[this.SortColumn].Text);
+
+                // Calculate correct return value based on specified sort order
+
+                if (this.Order == SortOrder.Descending)
+                {
+                    // Descending sort is selected, return negative result of compare operation
+
+                    compareResult = (-compareResult);
+                }
+                else if (this.Order == SortOrder.None)
+                {
+                    // Return '0' to indicate they are equal
+
+                    compareResult = 0;
+                }
             }
-            else if (_orderOfSort == SortOrder.None)
+            else
             {
-                // Return '0' to indicate they are equal
-
-                compareResult = 0;
+                throw new ArgumentNullException(FirstItem == null ? nameof(FirstItem) : nameof(SecondItem));
             }
 
             return compareResult;

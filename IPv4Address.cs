@@ -84,10 +84,16 @@ namespace Library
         /// 
         public IPv4Address(string NewIPAddress)
         {
-            ConvertStringToQuadrants(NewIPAddress);
+            this.ConvertStringToQuadrants(NewIPAddress);
         }
 
+
+
+
         private readonly int[] _quadrants = {0, 0, 0, 0};
+
+
+
 
         /// <summary>
         /// An array of integers containing the individual components of the
@@ -99,14 +105,15 @@ namespace Library
         /// within the array are checked for validity.
         /// </remarks>
         /// 
-        /// <throws>
-        /// Format Exception
-        /// Argument Out of Range Exception
-        /// </throws>
+        /// <exception cref="FormatException" />
+        /// <exception cref="ArgumentOutOfRangeException" />
         /// 
         public int[] Quadrants
         {
-            get { return this._quadrants; }
+            get
+            {
+                return this._quadrants;
+            }
 
             set
             {
@@ -127,8 +134,8 @@ namespace Library
                             else
                             {
                                 throw new ArgumentOutOfRangeException(
-                                    String.Format("Quadrant value must be between {0} and {1}.  ", MIN_QUADRANT_VALUE, MAX_QUADRANT_VALUE) +
-                                    String.Format("Quadrant value at index {0} was {1}.", idx, value[idx]));
+                                    $"Quadrant value must be between {MIN_QUADRANT_VALUE} and {MAX_QUADRANT_VALUE}.  " +
+                                    $"Quadrant value at index {idx} was {value[idx]}.");
                             }
                         }
                     }
@@ -142,7 +149,10 @@ namespace Library
         /// 
         public static IPv4Address Empty
         {
-            get { return new IPv4Address(0, 0, 0, 0); }
+            get
+            {
+                return new IPv4Address(0, 0, 0, 0);
+            }
         }
 
         /// <summary>
@@ -161,15 +171,32 @@ namespace Library
         /// 
         public override bool Equals(object obj)
         {
-            bool isEqual = (obj is IPv4Address);
+            return this.Equals(obj as IPv4Address);
+        }
+
+        /// <summary>
+        /// Determines if the quadrants of this object match the quadrants of
+        /// the passed object.
+        /// </summary>
+        /// 
+        /// <param name="OtherAddress">
+        /// The IPv4Address to check for equality.
+        /// </param>
+        /// 
+        /// <returns>
+        /// True if the quadrants of the passed object equal the current object's
+        /// quadrant values.
+        /// </returns>
+        /// 
+        public bool Equals(IPv4Address OtherAddress)
+        {
+            bool isEqual = OtherAddress != null;
 
             if (isEqual)
             {
-                var tempAddress = obj as IPv4Address;
-
                 for (int idx = 0; idx < NUM_QUADRANTS; idx++)
                 {
-                    if (Quadrants[idx] != tempAddress.Quadrants[idx])
+                    if (Quadrants[idx] != OtherAddress.Quadrants[idx])
                     {
                         isEqual = false;
                         break;
@@ -179,9 +206,7 @@ namespace Library
 
             return isEqual;
         }
-
-
-
+        
         /// <summary>
         /// Converts the values in the Quadrants array property to a string in 
         /// the standard format for IP addresses.
@@ -195,13 +220,16 @@ namespace Library
         {
             string addressText = "";
 
-            if (!Equals(IPv4Address.Empty))
+            if (!this.Equals(IPv4Address.Empty))
             {
-                addressText = String.Format("{0}.{1}.{2}.{3}", Quadrants[0], Quadrants[1], Quadrants[2], Quadrants[3]);
+                addressText = $"{Quadrants[0]}.{Quadrants[1]}.{Quadrants[2]}.{Quadrants[3]}";
             }
 
             return addressText;
         }
+
+
+
 
         /// <summary>
         /// Converts an IP address in the standard dotted format to an array of
@@ -212,36 +240,43 @@ namespace Library
         /// The IP address in the standard dotted format.
         /// </param>
         /// 
-        /// <throws>
-        /// Format Exception
-        /// Argument Out of Range Exception
-        /// </throws>
+        /// <exception cref="FormatException" />
+        /// <exception cref="ArgumentException" />
         /// 
         private void ConvertStringToQuadrants(string IPAddress)
         {
-            if (Regex.IsMatch(IPAddress, @"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"))
+            if (string.IsNullOrEmpty(IPAddress))
             {
-                //  Convert the string to an array of ints.  First add a period
-                //    to the end of the string for the Split function.
-
-                string[] quadrantsText = IPAddress.Split(new string[] {"."}, StringSplitOptions.None);
-                var newQuadrants = new int[NUM_QUADRANTS];
-
-                for (int idx = 0; idx < NUM_QUADRANTS; idx++)
+                if (Regex.IsMatch(IPAddress, @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"))
                 {
-                    newQuadrants[idx] = int.Parse(quadrantsText[idx]);
+                    //  Convert the string to an array of ints.
+
+                    string[] quadrantsText = IPAddress.Split(new string[] { "." }, StringSplitOptions.None);
+                    var newQuadrants = new int[NUM_QUADRANTS];
+
+                    for (int idx = 0; idx < NUM_QUADRANTS; idx++)
+                    {
+                        newQuadrants[idx] = int.Parse(quadrantsText[idx]);
+                    }
+
+                    //  Assign the converted ints to the int array property where
+                    //    it will be checked for valid quadrant numbers.
+
+                    this.Quadrants = newQuadrants;
                 }
-
-                //  Assign the converted ints to the int array property where
-                //    it will be checked for valid quadrant numbers.
-
-                Quadrants = newQuadrants;
+                else
+                {
+                    throw new FormatException("Invalid IP address format.");
+                }
             }
             else
             {
-                throw new FormatException("Invalid IP address format.");
+                throw new ArgumentException("IP address was null or empty.");
             }
         }
+
+
+
 
         /// <summary>
         /// Converts a string containing an IP address in the standard dotted
@@ -265,7 +300,7 @@ namespace Library
         {
             IPv4Address newAddress = IPv4Address.Empty;
 
-            if (IPAddress != "")
+            if (!string.IsNullOrEmpty(IPAddress))
             {
                 newAddress.ConvertStringToQuadrants(IPAddress);
             }
@@ -298,23 +333,26 @@ namespace Library
             bool parseSuccess = true;
             NewAddress = IPv4Address.Empty;
 
-            try
+            if (!string.IsNullOrEmpty(IPAddress))
             {
-                NewAddress = IPv4Address.Parse(IPAddress);
+                try
+                {
+                    NewAddress = IPv4Address.Parse(IPAddress);
+                }
+                catch (FormatException)
+                {
+                    parseSuccess = false;
+                    NewAddress = IPv4Address.Empty;
+                }
+                catch (ArgumentException)
+                {
+                    parseSuccess = false;
+                    NewAddress = IPv4Address.Empty;
+                }
             }
-            catch (FormatException fex)
+            else
             {
-                Debug.WriteLine(fex.Message);
-
                 parseSuccess = false;
-                NewAddress = IPv4Address.Empty;
-            }
-            catch (ArgumentOutOfRangeException rex)
-            {
-                Debug.WriteLine(rex.Message);
-
-                parseSuccess = false;
-                NewAddress = IPv4Address.Empty;
             }
 
             return parseSuccess;
