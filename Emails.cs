@@ -1,20 +1,87 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Mail;
-
-#endregion
 
 namespace Library
 {
     public class Emails
     {
+        /// <summary>
+        /// A simple class to store information about an email message.
+        /// </summary>
+        /// 
+        public class Message
+        {
+            public string From { get; set; }
+
+            public string To { get; set; }
+
+            public string CC { get; set; }
+
+            public string BCC { get; set; }
+
+            public string Subject { get; set; }
+
+            public string Body { get; set; }
+
+
+
+
+            public Message(string From, string To, string Subject, string Body, string CC, string BCC)
+            {
+                this.From    = From;
+                this.To      = To;
+                this.CC      = CC;
+                this.BCC     = BCC;
+                this.Subject = Subject;
+                this.Body    = Body;
+            }
+        }
+
+        /// <summary>
+        /// A simple class to store information about an email server.
+        /// </summary>
+        /// 
+        public class Server
+        {
+            public string Name { get; set; }
+
+            public int Port { get; set; }
+
+            public bool EnableSSL { get; set; }
+
+            public string User { get; set; }
+
+            public string Password { get; set; }
+
+
+
+
+            public Server(string Name, int Port, bool EnableSSL, string User, string Password)
+            {
+                this.Name      = Name;
+                this.Port      = Port;
+                this.EnableSSL = EnableSSL;
+                this.User      = User;
+                this.Password  = Password;
+            }
+        }
+
+
+
+
         private static string _errorMessage = "";
 
+        /// <summary>
+        /// Gets the error message if a method returns false.
+        /// </summary>
+        /// 
         public static string ErrorMessage
         {
-            get { return _errorMessage; }
+            get
+            {
+                return _errorMessage;
+            }
 
             private set
             {
@@ -25,63 +92,132 @@ namespace Library
             }
         }
 
-        public static bool SendEmail(string From, string To, string Subject, string Body, string EmailServer, int EmailPort,
-                                                   bool EmailEnableSSL, string EmailUser, string EmailPassword)
+
+
+
+        /// <summary>
+        /// Sends a plain text email.
+        /// </summary>
+        /// 
+        /// <param name="MessageSettings">
+        /// Contains information about the email including to address, from address, subject text and body text.
+        /// </param>
+        /// 
+        /// <param name="ServerSettings">
+        /// Contains information about the email server.
+        /// </param>
+        /// 
+        /// <returns>
+        /// True if the email was sent successfully.
+        /// </returns>
+        /// 
+        public static bool SendEmail(Emails.Message MessageSettings, Emails.Server ServerSettings)
         {
-            return SendEmailWithAttachment(From, To, Subject, Body, "", EmailServer, EmailPort, EmailEnableSSL, EmailUser, EmailPassword);
+            return SendEmailWithAttachment(MessageSettings, "", ServerSettings);
         }
 
-        public static bool SendEmailWithAttachment(string From, string To, string Subject, string Body,
-                                                   string AttachmentPath, string EmailServer, int EmailPort,
-                                                   bool EmailEnableSSL, string EmailUser, string EmailPassword)
+        /// <summary>
+        /// Sends a plain text email with an attached file.
+        /// </summary>
+        /// 
+        /// <param name="MessageSettings">
+        /// Contains information about the email including to address, from address, subject text and body text.
+        /// </param>
+        /// 
+        /// <param name="AttachmentPath">
+        /// The full name and path to the file that is to be attached.
+        /// </param>
+        /// 
+        /// <param name="ServerSettings">
+        /// Contains information about the email server.
+        /// </param>
+        /// 
+        /// <returns>
+        /// True if the email was sent successfully.
+        /// </returns>
+        /// 
+        public static bool SendEmailWithAttachment(Emails.Message MessageSettings, string AttachmentPath, Emails.Server ServerSettings)
         {
             Attachment attachment = null;
-            if (File.Exists(AttachmentPath))
+            if (!string.IsNullOrEmpty(AttachmentPath) && File.Exists(AttachmentPath))
             {
                 attachment = new Attachment(AttachmentPath);
             }
 
-            return SendEmailWithAttachment(From, To, Subject, Body, attachment, EmailServer, EmailPort, EmailEnableSSL, EmailUser, EmailPassword);
+            return SendEmailWithAttachment(MessageSettings, attachment, ServerSettings);
         }
 
-        public static bool SendEmailWithAttachment(string From, string To, string Subject, string Body,
-                                                   Attachment EmailAttachment, string EmailServer, int EmailPort,
-                                                   bool EmailEnableSSL, string EmailUser, string EmailPassword)
+        /// <summary>
+        /// Sends a plain text email with an attached file.
+        /// </summary>
+        /// 
+        /// <param name="MessageSettings">
+        /// Contains information about the email including to address, from address, subject text and body text.
+        /// </param>
+        /// 
+        /// <param name="EmailAttachment">
+        /// The file contents of the attachment for the email.
+        /// </param>
+        /// 
+        /// <param name="ServerSettings">
+        /// Contains information about the email server.
+        /// </param>
+        /// 
+        /// <returns>
+        /// True if the email was sent successfully.
+        /// </returns>
+        /// 
+        public static bool SendEmailWithAttachment(Emails.Message MessageSettings, Attachment EmailAttachment, Emails.Server ServerSettings)
         {
             bool emailSent = false;
 
-            if (!From.IsEmpty())
+            if (!string.IsNullOrEmpty(MessageSettings.From))
             {
-                if (!To.IsEmpty())
+                if (!string.IsNullOrEmpty(MessageSettings.To))
                 {
-                    if (!Body.IsEmpty())
+                    if (!string.IsNullOrEmpty(MessageSettings.Body))
                     {
-                        var smtpServer = new SmtpClient(EmailServer)
+                        //  Set up the server first.
+
+                        var smtpServer = new SmtpClient(ServerSettings.Name)
                         {
-                            Port = EmailPort,
-                            EnableSsl = EmailEnableSSL
+                            Port      = ServerSettings.Port,
+                            EnableSsl = ServerSettings.EnableSSL
                         };
 
                         //  Add credentials only if a user has been specified.
 
-                        if (!string.IsNullOrEmpty(EmailUser))
+                        if (!string.IsNullOrEmpty(ServerSettings.User))
                         {
-                            smtpServer.Credentials = new System.Net.NetworkCredential(EmailUser, EmailPassword);
+                            smtpServer.Credentials = new System.Net.NetworkCredential(ServerSettings.User, ServerSettings.Password);
                         }
+
+                        //  Set up the email message.
 
                         var mail = new MailMessage
                         {
                             IsBodyHtml = false,
-                            From = new MailAddress(From),
-                            Subject = Subject,
-                            Body = Body
+                            From       = new MailAddress(MessageSettings.From),
+                            Subject    = MessageSettings.Subject,
+                            Body       = MessageSettings.Body
                         };
-                        mail.To.Add(To);
+                        mail.To.Add(MessageSettings.To);
+
+                        if (!string.IsNullOrEmpty(MessageSettings.CC))
+                        {
+                            mail.CC.Add(MessageSettings.CC);
+                        }
+                        if (!string.IsNullOrEmpty(MessageSettings.BCC))
+                        {
+                            mail.Bcc.Add(MessageSettings.BCC);
+                        }
 
                         if (EmailAttachment != null)
                         {
                             mail.Attachments.Add(EmailAttachment);
                         }
+
+                        //  Send the email message.
 
                         try
                         {

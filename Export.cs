@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
-
-#endregion
 
 namespace Library
 {
@@ -23,6 +19,8 @@ namespace Library
         /// <param name="SourceTable">
         /// A DataTable containing the data to export.
         /// </param>
+        /// 
+        /// <exception cref="Exception" />
         /// 
         public static void DataTableToCSV(string FilePath, DataTable SourceTable)
         {
@@ -45,6 +43,8 @@ namespace Library
         /// <param name="WriteColumnHeaders">
         /// True to write the name of the columns to the file; false otherwise.
         /// </param>
+        /// 
+        /// <exception cref="Exception" />
         /// 
         public static void DataTableToCSV(string FilePath, DataTable SourceTable, bool WriteColumnHeaders)
         {
@@ -74,9 +74,11 @@ namespace Library
         /// null to indicate all columns should be added.
         /// </param>
         /// 
+        /// <exception cref="Exception" />
+        /// 
         public static void DataTableToCSV(string FilePath, DataTable SourceTable, bool WriteColumnHeaders, List<string> ColumnsToInclude)
         {
-            if (!FilePath.IsEmpty())
+            if (!string.IsNullOrEmpty(FilePath))
             {
                 if (SourceTable != null && SourceTable.Rows.Count > 0)
                 {
@@ -120,6 +122,8 @@ namespace Library
         /// A list of the names of the columns to include in the output.  Use
         /// null to indicate all columns should be added.
         /// </param>
+        /// 
+        /// <exception cref="Exception" />
         /// 
         public static void DataTableToCSV(StreamWriter CSVWriter, DataTable SourceTable, bool WriteColumnHeaders, List<string> ColumnsToInclude)
         {

@@ -23,14 +23,13 @@ namespace Library
         /// 
         public DateTime End { get; set; }
 
-        public DateRangeResult()
-        {
-        }
+
+
 
         public DateRangeResult(DateTime NewStart, DateTime NewEnd)
         {
             this.Start = NewStart;
-            this.End = NewEnd;
+            this.End   = NewEnd;
         }
     }
 }

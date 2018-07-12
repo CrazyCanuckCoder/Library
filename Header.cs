@@ -1,9 +1,6 @@
-﻿#region
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
-#endregion
 
 namespace Library
 {
@@ -19,18 +16,14 @@ namespace Library
             Width = NewWidth;
         }
 
-        #region  Fields
+
+
 
         private string _text = "";
         private int _width = 0;
-        private ContentAlignment _textAlignment = ContentAlignment.MiddleCenter;
-        private Color _foreground = SystemColors.ActiveCaptionText;
-        private Color _background = SystemColors.ActiveCaption;
-        private bool _hasBorder = true;
 
-        #endregion  Fields
 
-        #region  Properties
+
 
         [Description("The text to display in the header.")]
         public string Text
@@ -61,38 +54,19 @@ namespace Library
         }
 
         [Description("How the text is aligned in the header.")]
-        public ContentAlignment TextAlignment
-        {
-            get { return _textAlignment; }
-
-            set { _textAlignment = value; }
-        }
+        public ContentAlignment TextAlignment { get; set; } = ContentAlignment.MiddleCenter;
 
         [Description("The colour of the text in the header.")]
-        public Color Foreground
-        {
-            get { return _foreground; }
-
-            set { _foreground = value; }
-        }
+        public Color Foreground { get; set; } = SystemColors.ActiveCaptionText;
 
         [Description("The background colour of the header.")]
-        public Color Background
-        {
-            get { return _background; }
-
-            set { _background = value; }
-        }
+        public Color Background { get; set; } = SystemColors.ActiveCaption;
 
         [Description("Indicates whether the header should have a border.")]
-        public bool HasBorder
-        {
-            get { return _hasBorder; }
+        public bool HasBorder { get; set; } = true;
 
-            set { _hasBorder = value; }
-        }
 
-        #endregion  Properties
+
 
         public override string ToString()
         {

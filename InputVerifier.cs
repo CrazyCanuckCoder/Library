@@ -91,11 +91,14 @@ namespace Library
         {
         }
 
+
+
+
         private Dictionary<Control, List<RadioButton>> _radioButtons = null;
-
-        private List<InputError> _inputErrors = null;
-
         private readonly Dictionary<Type, Func<Control, string>> _verificationDelegates = new Dictionary<Type, Func<Control, string>>();
+
+
+
 
         /// <summary>
         /// Gets the list of InputError objects that detail the controls that
@@ -107,13 +110,9 @@ namespace Library
         /// explanation of the controls that had errors.
         /// </remarks>
         /// 
-        public List<InputError> InputErrors
-        {
-            get
-            {
-                return this._inputErrors;
-            }
-        }
+        public List<InputError> InputErrors { get; private set; } = null;
+
+
 
 
         /// <summary>
@@ -138,7 +137,7 @@ namespace Library
         /// 
         public bool HasValidInput(IEnumerable ControlsToVerify)
         {
-            this._inputErrors = new List<InputError>();
+            this.InputErrors = new List<InputError>();
             this._radioButtons = new Dictionary<Control, List<RadioButton>>();
 
             return this.ValidateUserEntries(ControlsToVerify);
@@ -272,15 +271,15 @@ namespace Library
                 }
                 else
                 {
-                    this._inputErrors.Add(new InputError(new Control(), "No controls were found to verify."));
+                    this.InputErrors.Add(new InputError(new Control(), "No controls were found to verify."));
                 }
             }
             else
             {
-                this._inputErrors.Add(new InputError(new Control(), "Attempted to verify non existent collection of controls."));
+                this.InputErrors.Add(new InputError(new Control(), "Attempted to verify non existent collection of controls."));
             }
 
-            return (this._inputErrors.Count == 0);
+            return (this.InputErrors.Count == 0);
         }
 
         /// <summary>
@@ -335,9 +334,9 @@ namespace Library
             if (this._verificationDelegates.ContainsKey(ControlToCheck.GetType()))
             {
                 string errMsg = this._verificationDelegates[ControlToCheck.GetType()](ControlToCheck);
-                if (!errMsg.IsEmpty())
+                if (!string.IsNullOrEmpty(errMsg))
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, errMsg));
+                    this.InputErrors.Add(new InputError(ControlToCheck, errMsg));
                 }
             }
             else if (ControlToCheck is RadioButton)
@@ -346,52 +345,52 @@ namespace Library
             }
             else if (ControlToCheck is TextBox)
             {
-                if ((ControlToCheck as TextBox).Text.IsEmpty())
+                if (string.IsNullOrEmpty((ControlToCheck as TextBox).Text))
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "Text is required."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
                 }
             }
             else if (ControlToCheck is CheckedListBox)
             {
                 if ((ControlToCheck as CheckedListBox).CheckedItems.Count == 0)
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "At least one item must be checked."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "At least one item must be checked."));
                 }
             }
             else if (ControlToCheck is ComboBox)
             {
                 if ((ControlToCheck as ComboBox).SelectedItem == null)
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
                 }
             }
             else if (ControlToCheck is DateTimePicker)
             {
                 if ((ControlToCheck as DateTimePicker).Value == (ControlToCheck as DateTimePicker).MinDate)
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, 
+                    this.InputErrors.Add(new InputError(ControlToCheck, 
                         string.Format("A date greater than {0} must be selected.", (ControlToCheck as DateTimePicker).MinDate)));
                 }
             }
             else if (ControlToCheck is DomainUpDown)
             {
-                if ((ControlToCheck as DomainUpDown).Text.IsEmpty())
+                if (string.IsNullOrEmpty((ControlToCheck as DomainUpDown).Text))
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
                 }
             }
             else if (ControlToCheck is ListBox)
             {
                 if ((ControlToCheck as ListBox).SelectedItem == null)
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "An item must be selected."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "An item must be selected."));
                 }
             }
             else if (ControlToCheck is MaskedTextBox)
             {
                 if (!(ControlToCheck as MaskedTextBox).MaskCompleted)
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "Field must be completed."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "Field must be completed."));
                 }
             }
             else if (ControlToCheck is NumericUpDown)
@@ -399,14 +398,14 @@ namespace Library
                 NumericUpDown numUpDown = (ControlToCheck as NumericUpDown);
                 if (numUpDown.Minimum == 0M && numUpDown.Value == numUpDown.Minimum) 
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "A value must be entered."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "A value must be entered."));
                 }
             }
             else if (ControlToCheck is RichTextBox)
             {
-                if ((ControlToCheck as RichTextBox).Text.IsEmpty())
+                if (string.IsNullOrEmpty((ControlToCheck as RichTextBox).Text))
                 {
-                    this._inputErrors.Add(new InputError(ControlToCheck, "Text is required."));
+                    this.InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
                 }
             }
         }
@@ -448,7 +447,7 @@ namespace Library
             {
                 if (!this._radioButtons[parentControl].Any(currButton => currButton.Checked))
                 {
-                    this._inputErrors.Add(new InputError(parentControl, "At least one option must be selected."));
+                    this.InputErrors.Add(new InputError(parentControl, "At least one option must be selected."));
                 }
             }
         }

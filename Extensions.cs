@@ -1,17 +1,12 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-#endregion
 
 namespace Library
 {
@@ -128,23 +123,6 @@ namespace Library
         }
 
         /// <summary>
-        /// Returns true if the string is null or contains no text.
-        /// </summary>
-        /// 
-        /// <param name="Text">
-        /// The string to check.
-        /// </param>
-        /// 
-        /// <returns>
-        /// True when the string is null or empty and false when it contains text.
-        /// </returns>
-        /// 
-        public static bool IsEmpty(this string Text)
-        {
-            return (Text == null || Text.Trim() == "");
-        }
-
-        /// <summary>
         /// Returns true if the contents of the string contains only numbers.
         /// </summary>
         /// 
@@ -158,7 +136,7 @@ namespace Library
         /// 
         public static bool IsNumeric(this string Text)
         {
-            return (!Text.IsEmpty() && Regex.IsMatch(Text, @"^[+-]?[\d+\.?\d]+$"));
+            return (!string.IsNullOrEmpty(Text) && Regex.IsMatch(Text, @"^[+-]?[\d+\.?\d]+$"));
         }
 
         /// <summary>
@@ -242,6 +220,9 @@ namespace Library
         /// is returned.
         /// </returns>
         /// 
+        /// <exception cref="ArgumentException" />
+        /// <exception cref="ArgumentNullException" />
+        /// 
         public static string GetFieldDelimitedList(this DataTable SourceTable, string FieldName)
         {
             string delimitedValues = "";
@@ -250,7 +231,7 @@ namespace Library
             {
                 if (FieldName != null)
                 {
-                    if (!FieldName.IsEmpty())
+                    if (!string.IsNullOrEmpty(FieldName))
                     {
                         if (SourceTable.Columns.Contains(FieldName))
                         {
@@ -328,7 +309,7 @@ namespace Library
         }
 
         /// <summary>
-        /// Takes the strings of an enumeration and adds spaces between capital letters.
+        /// Takes the strings of an enumeration, adds spaces between capital letters, and provides a list.
         /// </summary>
         /// 
         /// <param name="Enumeration">
@@ -370,25 +351,12 @@ namespace Library
         {
             string newText = "";
 
-            if (!Text.IsEmpty())
+            if (!string.IsNullOrEmpty(Text))
             {
-                int lastCapPos = 0;
+                Regex regex = new Regex(@"(?<=[^A-Z])(?=[A-Z]) | (?=[A-Z][^A-Z])",
+                                      RegexOptions.IgnorePatternWhitespace);
 
-                for (int idx = 0; idx < Text.Length; idx++)
-                {
-                    if (char.IsUpper(Text[idx]))
-                    {
-                        if (idx > 0)
-                        {
-                            newText += Text.Substring(lastCapPos, idx - lastCapPos) + " ";
-                            lastCapPos = idx;
-                        }
-                    }
-                }
-
-                //  Grab the remaining characters after the last capital was found.
-
-                newText += Text.Substring(lastCapPos);
+                newText = regex.Replace(Text, " ").Trim();
             }
 
             return newText;
@@ -478,21 +446,6 @@ namespace Library
             return splittedText;
         }
 
-        public static ISpecification<T> And<T>(this ISpecification<T> Spec1, ISpecification<T> Spec2)
-        {
-            return new AndSpecification<T>(Spec1, Spec2);
-        }
-
-        public static ISpecification<T> Or<T>(this ISpecification<T> Spec1, ISpecification<T> Spec2)
-        {
-            return new OrSpecification<T>(Spec1, Spec2);
-        }
-
-        public static ISpecification<T> Not<T>(this ISpecification<T> Spec)
-        {
-            return new NotSpecification<T>(Spec);
-        }
-
         /// <summary>
         /// Converts the list to a string containing the values separated by a comma.
         /// </summary>
@@ -518,7 +471,7 @@ namespace Library
                 {
                     for (; index < CSVList.Count - 1; index++)
                     {
-                        //  If the list item contains a comma, the text will need to be separated
+                        //  If the list item contains a comma, the text will need to be surrounded
                         //    by quotes so that it can import properly.
 
                         containsComma = CSVList[index].Contains(",");
@@ -528,7 +481,8 @@ namespace Library
 
                 //  Include the last string without adding a comma.
 
-                newString.Append(CSVList[index]);
+                containsComma = CSVList[index].Contains(",");
+                newString.Append((containsComma ? "\"" : "") + CSVList[index] + (containsComma ? "\"" : ""));
             }
 
             return newString.ToString();
