@@ -62,30 +62,6 @@ namespace Library.Tests
         }
 
         [Test]
-        public void IsEmpty_ReturnsTrue_ForNullString()
-        {
-            string nullText = null;
-
-            Assert.IsTrue(nullText.IsEmpty(), "IsEmpty returned false for a null string.");
-        }
-
-        [Test]
-        public void IsEmpty_ReturnsTrue_ForEmptyString()
-        {
-            string emptyString = "  ";
-
-            Assert.IsTrue(emptyString.IsEmpty(), "IsEmpty returned false for an empty string.");
-        }
-
-        [Test]
-        public void IsEmpty_ReturnsFalse_ForStringWithText()
-        {
-            string text = "some text";
-
-            Assert.IsFalse(text.IsEmpty(), "IsEmpty returned true for a string with text in it.");
-        }
-
-        [Test]
         public void IsDateTime_ReturnsTrue_ForValidDate()
         {
             Assert.IsTrue("12/31/2014".IsDateTime(), "IsDateTime returned false for valid date string.");

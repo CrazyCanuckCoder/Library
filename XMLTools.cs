@@ -40,10 +40,10 @@ namespace Library
                         XDocument xDoc = XDocument.Load(XMLFilePath);
 
                         var result = (
-                                from hit in xDoc.Descendants(ParentName)
-                                group hit by new {hit.Element(ElementName).Value}
-                                into dupeItems
-                                where dupeItems.Count() > 1
+                                  from hit in xDoc.Descendants(ParentName)
+                                 group hit by new {hit.Element(ElementName).Value}
+                                  into dupeItems
+                                 where dupeItems.Count() > 1
                                 select new
                                 {
                                     dupeItems.Key.Value
