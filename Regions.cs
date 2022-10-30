@@ -9,8 +9,8 @@ namespace Library
     {
         private Regions()
         {
-            this.SetupUSStates();
-            this.SetupCdnProvinces();
+            SetupUSStates();
+            SetupCdnProvinces();
         }
 
 
@@ -64,7 +64,7 @@ namespace Library
                                       "New Hampshire,New Jersey,New Mexico,New York,North Carolina,North Dakota,Ohio,"       +
                                       "Oklahoma,Oregon,Pennsylvania,Rhode Island,South Carolina,South Dakota,Tennessee,"     +
                                       "Texas,Utah,Vermont,Virginia,Washington,West Virginia,Wisconsin,Wyoming";
-            this.USStates.AddRange(stateNames.Split(','));
+            USStates.AddRange(stateNames.Split(','));
         }
 
         private void SetupCdnProvinces()
@@ -72,7 +72,7 @@ namespace Library
             const string cdnProvinces = "Alberta,British Columbia,Manitoba,New Brunswick,Newfoundland and Labrador," +
                                         "Nova Scotia,Nunavut,Ontario,Prince Edward Island,Quebec,Saskatchewan,"      +
                                         "Northwest Territories,Yukon";
-            this.CdnProvinces.AddRange(cdnProvinces.Split(','));
+            CdnProvinces.AddRange(cdnProvinces.Split(','));
         }
     }
 }

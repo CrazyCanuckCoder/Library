@@ -18,8 +18,8 @@ namespace Library.WinForms
 
         public ShowDataGridSettingsForm(List<string> AllColumns, DataGridSettings CurrentSettings) : this()
         {
-            this.AddColumnNamesToListBox(AllColumns);
-            this.SettingsInfo = CurrentSettings;
+            AddColumnNamesToListBox(AllColumns);
+            SettingsInfo = CurrentSettings;
         }
 
         private DataGridSettings _settingsInfo = new DataGridSettings(true, true, new List<string>());
@@ -32,18 +32,18 @@ namespace Library.WinForms
         {
             get
             {
-                return this._settingsInfo;
+                return _settingsInfo;
             }
 
             private set
             {
-                this._settingsInfo = value;
+                _settingsInfo = value;
 
-                this.checkBoxIncludeHeaders.Checked    = this._settingsInfo.IncludeColumnHeaders;
-                this.radioButtonExportAll.Checked      = this._settingsInfo.ExportAllColumns;
-                this.radioButtonExportSelected.Checked = !this._settingsInfo.ExportAllColumns;
+                checkBoxIncludeHeaders.Checked    = _settingsInfo.IncludeColumnHeaders;
+                radioButtonExportAll.Checked      = _settingsInfo.ExportAllColumns;
+                radioButtonExportSelected.Checked = !_settingsInfo.ExportAllColumns;
 
-                this.SetCheckedColumns(this._settingsInfo.ColumnsToExport);
+                SetCheckedColumns(_settingsInfo.ColumnsToExport);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Library.WinForms
         {
             foreach (string name in ColumnsToAdd)
             {
-                this.checkedListBoxColumns.Items.Add(name, true);
+                checkedListBoxColumns.Items.Add(name, true);
             }
         }
 
@@ -74,10 +74,10 @@ namespace Library.WinForms
         /// 
         private void SetCheckedColumns(List<string> ColumnsToCheck)
         {
-            for (int itemIDX = 0; itemIDX < this.checkedListBoxColumns.Items.Count; itemIDX++)
+            for (int itemIDX = 0; itemIDX < checkedListBoxColumns.Items.Count; itemIDX++)
             {
-                this.checkedListBoxColumns.SetItemChecked(itemIDX, 
-                    ColumnsToCheck.Contains(this.checkedListBoxColumns.Items[itemIDX].ToString()));
+                checkedListBoxColumns.SetItemChecked(itemIDX, 
+                    ColumnsToCheck.Contains(checkedListBoxColumns.Items[itemIDX].ToString()));
             }
         }
 
@@ -88,7 +88,7 @@ namespace Library.WinForms
         /// 
         private void ChangeColumnControls()
         {
-            this.checkedListBoxColumns.Enabled = this.radioButtonExportSelected.Checked;
+            checkedListBoxColumns.Enabled = radioButtonExportSelected.Checked;
         }
 
         /// <summary>
@@ -97,14 +97,14 @@ namespace Library.WinForms
         /// 
         private void GetValuesFromForm()
         {
-            this.SettingsInfo.ExportAllColumns = this.radioButtonExportAll.Checked;
-            this.SettingsInfo.IncludeColumnHeaders = this.checkBoxIncludeHeaders.Checked;
-            this.SettingsInfo.ColumnsToExport = new List<string>();
-            if (!this.SettingsInfo.ExportAllColumns)
+            SettingsInfo.ExportAllColumns = radioButtonExportAll.Checked;
+            SettingsInfo.IncludeColumnHeaders = checkBoxIncludeHeaders.Checked;
+            SettingsInfo.ColumnsToExport = new List<string>();
+            if (!SettingsInfo.ExportAllColumns)
             {
-                foreach (int checkedItemIDX in this.checkedListBoxColumns.CheckedIndices)
+                foreach (int checkedItemIDX in checkedListBoxColumns.CheckedIndices)
                 {
-                    this.SettingsInfo.ColumnsToExport.Add(this.checkedListBoxColumns.Items[checkedItemIDX].ToString());
+                    SettingsInfo.ColumnsToExport.Add(checkedListBoxColumns.Items[checkedItemIDX].ToString());
                 }
             }
         }
@@ -115,18 +115,18 @@ namespace Library.WinForms
 
         private void radioButtonExportAll_CheckedChanged(object sender, EventArgs e)
         {
-            this.ChangeColumnControls();
+            ChangeColumnControls();
         }
 
         private void radioButtonExportSelected_CheckedChanged(object sender, EventArgs e)
         {
-            this.ChangeColumnControls();
+            ChangeColumnControls();
         }
 
         private void imageButtonSave_Click(object sender, EventArgs e)
         {
-            this.GetValuesFromForm();
-            this.DialogResult = DialogResult.OK;
+            GetValuesFromForm();
+            DialogResult = DialogResult.OK;
         }
 
         #endregion  Event Handlers

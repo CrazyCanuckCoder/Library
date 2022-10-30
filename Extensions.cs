@@ -33,8 +33,7 @@ namespace Library
         /// 
         public static string ToProper(this string Text, bool CapitalizeAll)
         {
-            string properText = null;
-
+            string properText;
             if (Text.Length > 1)
             {
                 properText = Text.Substring(0, 1).ToUpper() + Text.Substring(1).Trim().ToLower();
@@ -78,8 +77,7 @@ namespace Library
         /// 
         public static string FirstCharToLower(this string Text)
         {
-            string lowerText = null;
-
+            string lowerText;
             if (Text.Length > 1)
             {
                 lowerText = Text.Substring(0, 1).ToLower() + Text.Substring(1).Trim();
@@ -136,7 +134,7 @@ namespace Library
         /// 
         public static bool IsNumeric(this string Text)
         {
-            return (!string.IsNullOrEmpty(Text) && Regex.IsMatch(Text, @"^[+-]?[\d+\.?\d]+$"));
+            return !string.IsNullOrEmpty(Text) && Regex.IsMatch(Text, @"^[+-]?[\d+\.?\d]+$");
         }
 
         /// <summary>
@@ -170,9 +168,7 @@ namespace Library
         /// 
         public static bool IsDateTime(this string Text)
         {
-            DateTime tempDate;
-
-            return DateTime.TryParse(Text, out tempDate);
+            return DateTime.TryParse(Text, out _);
         }
 
         /// <summary>
@@ -225,8 +221,7 @@ namespace Library
         /// 
         public static string GetFieldDelimitedList(this DataTable SourceTable, string FieldName)
         {
-            string delimitedValues = "";
-
+            string delimitedValues;
             if (SourceTable != null)
             {
                 if (FieldName != null)
@@ -464,9 +459,9 @@ namespace Library
 
             if (CSVList.Count > 0)
             {
-                bool containsComma = false;
                 int index = 0;
 
+                bool containsComma;
                 if (CSVList.Count > 1)
                 {
                     for (; index < CSVList.Count - 1; index++)

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Library.WPFControls.LabelledProgressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library.WPFControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="100">
+    
+    <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <!-- Description Label -->
+
+            <Label Grid.Row="0" Grid.Column="0" Name="LabelDescription" Content="{Binding Text, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            
+            <!-- Progress Label -->
+
+            <Label Grid.Row="0" Grid.Column="0" Name="LabelProgress" Content="{Binding Text, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Padding="5,5,0,5"
+                   Width="{Binding ProgressLabelWidth, UpdateSourceTrigger=PropertyChanged}" Background="ForestGreen" Foreground="White" />
+        </Grid>
+    </Border>
+</UserControl>

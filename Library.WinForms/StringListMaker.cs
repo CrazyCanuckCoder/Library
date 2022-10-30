@@ -28,14 +28,14 @@ namespace Library.WinForms
         {
             get
             {
-                return this._regularExpressionTest;
+                return _regularExpressionTest;
             }
 
             set
             {
                 if (value != null)
                 {
-                    this._regularExpressionTest = value.Trim();
+                    _regularExpressionTest = value.Trim();
                 }
             }
         }
@@ -46,14 +46,14 @@ namespace Library.WinForms
         {
             get
             {
-                return this._regExFailureText;
+                return _regExFailureText;
             }
             
             set
             {
                 if (value != null)
                 {
-                    this._regExFailureText = value.Trim();
+                    _regExFailureText = value.Trim();
                 }
             }
         }
@@ -66,10 +66,10 @@ namespace Library.WinForms
             {
                 List<string> stringList = new List<string>();
 
-                if (this.listBoxEntries.Items.Count > 0)
+                if (listBoxEntries.Items.Count > 0)
                 {
-                    string[] entries = new string[this.listBoxEntries.Items.Count];
-                    this.listBoxEntries.Items.CopyTo(entries, 0);
+                    string[] entries = new string[listBoxEntries.Items.Count];
+                    listBoxEntries.Items.CopyTo(entries, 0);
                     stringList.AddRange(entries);
                 }
 
@@ -82,7 +82,7 @@ namespace Library.WinForms
         {
             get
             {
-                List<string> origList = this.StringList;
+                List<string> origList = StringList;
                 StringBuilder delimList = new StringBuilder();
 
                 foreach (string entry in origList)
@@ -99,14 +99,14 @@ namespace Library.WinForms
         {
             get
             {
-                return this.labelDescription.Text;
+                return labelDescription.Text;
             }
 
             set
             {
                 if (value != null)
                 {
-                    this.labelDescription.Text = value;
+                    labelDescription.Text = value;
                 }
             }
         }
@@ -116,12 +116,12 @@ namespace Library.WinForms
         {
             get
             {
-                return this.labelDescription.Visible;
+                return labelDescription.Visible;
             }
 
             set
             {
-                this.labelDescription.Visible = value;
+                labelDescription.Visible = value;
             }
         }
 
@@ -139,11 +139,11 @@ namespace Library.WinForms
             {
                 if (DelimitedValues.IndexOf(",") >= 0)
                 {
-                    this.ImportItems(DelimitedValues.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                    ImportItems(DelimitedValues.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
                 }
                 else
                 {
-                    this.ImportItems(new string[] { DelimitedValues });
+                    ImportItems(new string[] { DelimitedValues });
                 }
             }
             else
@@ -168,7 +168,7 @@ namespace Library.WinForms
                 {
                     foreach (string entry in ListValues)
                     {
-                        this.listBoxEntries.Items.Add(entry);
+                        listBoxEntries.Items.Add(entry);
                     }
                 }
             }
@@ -185,30 +185,30 @@ namespace Library.WinForms
         /// 
         private void AddEntry()
         {
-            string newEntry = this.textBoxEntries.Text;
+            string newEntry = textBoxEntries.Text;
 
-            if (!newEntry.IsEmpty())
+            if (!string.IsNullOrEmpty(newEntry))
             {
                 bool canAddEntry = true;
-                if (!this.RegularExpressionTest.IsEmpty())
+                if (!string.IsNullOrEmpty(RegularExpressionTest))
                 {
-                    canAddEntry = Regex.IsMatch(newEntry, this.RegularExpressionTest, RegexOptions.IgnoreCase);
+                    canAddEntry = Regex.IsMatch(newEntry, RegularExpressionTest, RegexOptions.IgnoreCase);
 
-                    if (!canAddEntry && !this.RegExFailureText.IsEmpty())
+                    if (!canAddEntry && !string.IsNullOrEmpty(RegExFailureText))
                     {
-                        Utility.ShowError(this.FindForm(), this.RegExFailureText);
+                        Utility.ShowError(FindForm(), RegExFailureText);
                     }
                 }
 
                 if (canAddEntry)
                 {
-                    this.listBoxEntries.Items.Add(newEntry);
-                    this.textBoxEntries.Text = "";
+                    listBoxEntries.Items.Add(newEntry);
+                    textBoxEntries.Text = "";
                 }
             }
             else
             {
-                Utility.ShowError(this.FindForm(), "You cannot add blank entries to the list.");
+                Utility.ShowError(FindForm(), "You cannot add blank entries to the list.");
             }
         }
 
@@ -219,10 +219,10 @@ namespace Library.WinForms
         /// 
         private void DeleteEntry()
         {
-            if (Utility.Confirm(this.FindForm(), "Are you sure you want to delete " + this.listBoxEntries.SelectedItem.ToString() +
+            if (Utility.Confirm(FindForm(), "Are you sure you want to delete " + listBoxEntries.SelectedItem.ToString() +
                                                  " from the list?"))
             {
-                this.listBoxEntries.Items.Remove(this.listBoxEntries.SelectedItem);
+                listBoxEntries.Items.Remove(listBoxEntries.SelectedItem);
             }
         }
 
@@ -230,29 +230,29 @@ namespace Library.WinForms
 
         private void textBoxEntries_TextChanged(object sender, EventArgs e)
         {
-            this.imageButtonAddEntry.Enabled = !this.textBoxEntries.Text.IsEmpty();
+            imageButtonAddEntry.Enabled = !string.IsNullOrEmpty(textBoxEntries.Text);
         }
 
         private void listBoxEntries_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.imageButtonDeleteEntry.Enabled = this.listBoxEntries.SelectedItem != null;
+            imageButtonDeleteEntry.Enabled = listBoxEntries.SelectedItem != null;
         }
 
         private void imageButtonAddEntry_Click(object sender, EventArgs e)
         {
-            this.AddEntry();
+            AddEntry();
         }
 
         private void imageButtonDeleteEntry_Click(object sender, EventArgs e)
         {
-            this.DeleteEntry();
+            DeleteEntry();
         }
 
         private void textBoxEntries_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.AddEntry();
+                AddEntry();
             }
         }
     }

@@ -29,12 +29,12 @@ namespace Library.WinForms
 
                 //  Reset the size of the text box when changing to multiline textboxes.
                  
-                Size origSize = this.textBoxInput.Size;
+                Size origSize = textBoxInput.Size;
                 textBoxInput.Multiline = _isMultiline;
 
                 if (_isMultiline)
                 {
-                    this.textBoxInput.Size = origSize;
+                    textBoxInput.Size = origSize;
                 }
             }
         }

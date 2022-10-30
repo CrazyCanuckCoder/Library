@@ -24,7 +24,7 @@ namespace Library.WPFControls
         public FilePicker()
         {
             InitializeComponent();
-            this.InitProperties();
+            InitProperties();
         }
 
 
@@ -73,9 +73,9 @@ namespace Library.WPFControls
         [Description("The text to use in this control that describes the file to select.")]
         public string Prompt
         {
-            get { return this.LabelDescription.Content.ToString(); }
+            get { return LabelDescription.Content.ToString(); }
 
-            set { this.LabelDescription.Content = value; }
+            set { LabelDescription.Content = value; }
         }
 
         /// <summary>
@@ -85,9 +85,9 @@ namespace Library.WPFControls
         [Description("Gets/sets the file chosen by the user.")]
         public string ChosenFile
         {
-            get { return this.TextBoxFilePath.Text; }
+            get { return TextBoxFilePath.Text; }
 
-            set { this.TextBoxFilePath.Text = value; }
+            set { TextBoxFilePath.Text = value; }
         }
 
         /// <summary>
@@ -104,13 +104,13 @@ namespace Library.WPFControls
         /// 
         private void InitProperties()
         {
-            this.CheckFileExists  = false;
-            this.SelectionFilter  = "";
-            this.InitialDirectory = "";
-            this.DialogTitle      = "";
-            this.SelectionMode    = FileSelectMode.Open;
-            this.Prompt           = "";
-            this.ChosenFile       = "";
+            CheckFileExists  = false;
+            SelectionFilter  = "";
+            InitialDirectory = "";
+            DialogTitle      = "";
+            SelectionMode    = FileSelectMode.Open;
+            Prompt           = "";
+            ChosenFile       = "";
         }
 
         /// <summary>
@@ -119,9 +119,9 @@ namespace Library.WPFControls
         /// 
         private void OnFileChosen()
         {
-            if (this.FileChosen != null)
+            if (FileChosen != null)
             {
-                this.FileChosen(this, new FileChosenEventArgs(this.ChosenFile, this.SelectionMode));
+                FileChosen(this, new FileChosenEventArgs(ChosenFile, SelectionMode));
             }
         }
 
@@ -135,17 +135,17 @@ namespace Library.WPFControls
         /// 
         private void ChoseFile(FileDialog DialogRef)
         {
-            DialogRef.CheckFileExists  = this.CheckFileExists;
-            DialogRef.Filter           = this.SelectionFilter;
-            DialogRef.FileName         = this.ChosenFile;
-            DialogRef.InitialDirectory = this.InitialDirectory;
-            DialogRef.Title            = this.DialogTitle;
+            DialogRef.CheckFileExists  = CheckFileExists;
+            DialogRef.Filter           = SelectionFilter;
+            DialogRef.FileName         = ChosenFile;
+            DialogRef.InitialDirectory = InitialDirectory;
+            DialogRef.Title            = DialogTitle;
 
             var showDialog = DialogRef.ShowDialog();
             if (showDialog != null && (bool)showDialog)
             {
-                this.TextBoxFilePath.Text = DialogRef.FileName;
-                this.OnFileChosen();
+                TextBoxFilePath.Text = DialogRef.FileName;
+                OnFileChosen();
             }
         }
 
@@ -155,14 +155,14 @@ namespace Library.WPFControls
         /// 
         private void PromptUserForFilePath()
         {
-            switch (this.SelectionMode)
+            switch (SelectionMode)
             {
                 case FileSelectMode.Open:
-                    this.OpenFile();
+                    OpenFile();
                     break;
 
                 case FileSelectMode.Save:
-                    this.SaveFile();
+                    SaveFile();
                     break;
             }
         }
@@ -173,7 +173,7 @@ namespace Library.WPFControls
         /// 
         public void OpenFile()
         {
-            this.ChoseFile(this._openFileDialog);
+            ChoseFile(_openFileDialog);
         }
 
         /// <summary>
@@ -182,14 +182,14 @@ namespace Library.WPFControls
         /// 
         public void SaveFile()
         {
-            this.ChoseFile(this._saveFileDialog);
+            ChoseFile(_saveFileDialog);
         }
 
 
 
         private void ButtonBrowse_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.PromptUserForFilePath();
+            PromptUserForFilePath();
         }
     }
 }

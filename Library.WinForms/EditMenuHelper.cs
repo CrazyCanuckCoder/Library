@@ -19,15 +19,15 @@ namespace Library.WinForms
                               ToolStripMenuItem PasteMenuItem, 
                               ToolStripMenuItem SelectAllMenuItem)
         {
-            this._formRef = MainForm;
+            _formRef = MainForm;
 
-            this._editMenu          = EditMenu;
-            this._cutMenuItem       = CutMenuItem;
-            this._copyMenuItem      = CopyMenuItem;
-            this._pasteMenuItem     = PasteMenuItem;
-            this._selectAllMenuItem = SelectAllMenuItem;
+            _editMenu          = EditMenu;
+            _cutMenuItem       = CutMenuItem;
+            _copyMenuItem      = CopyMenuItem;
+            _pasteMenuItem     = PasteMenuItem;
+            _selectAllMenuItem = SelectAllMenuItem;
 
-            this.InitiateMenuEvents();
+            InitiateMenuEvents();
         }
 
 
@@ -51,12 +51,12 @@ namespace Library.WinForms
         /// 
         private void InitiateMenuEvents()
         {
-            this._editMenu.DropDownOpening += (sender, e) => this.CheckEditMenuStatus();
+            _editMenu.DropDownOpening += (sender, e) => CheckEditMenuStatus();
 
-            this._cutMenuItem.Click       += (sender, e) => this._textBox.Cut();
-            this._copyMenuItem.Click      += (sender, e) => this._textBox.Copy();
-            this._pasteMenuItem.Click     += (sender, e) => this._textBox.Paste();
-            this._selectAllMenuItem.Click += (sender, e) => this._textBox.SelectAll();
+            _cutMenuItem.Click       += (sender, e) => _textBox.Cut();
+            _copyMenuItem.Click      += (sender, e) => _textBox.Copy();
+            _pasteMenuItem.Click     += (sender, e) => _textBox.Paste();
+            _selectAllMenuItem.Click += (sender, e) => _textBox.SelectAll();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Library.WinForms
 
             if (CurrentControl is ContainerControl)
             {
-                activeControl = this.GetActualActiveControl((CurrentControl as ContainerControl).ActiveControl);
+                activeControl = GetActualActiveControl((CurrentControl as ContainerControl).ActiveControl);
             }
 
             return activeControl;
@@ -90,16 +90,16 @@ namespace Library.WinForms
         /// 
         private void CheckEditMenuStatus()
         {
-            Control activeControl = this.GetActualActiveControl(this._formRef.ActiveControl);
-            this._textBox         = activeControl as TextBoxBase;
+            Control activeControl = GetActualActiveControl(_formRef.ActiveControl);
+            _textBox         = activeControl as TextBoxBase;
 
-            bool isTextBox      = this._textBox != null;
-            bool textIsSelected = isTextBox && this._textBox.SelectionLength > 0;
+            bool isTextBox      = _textBox != null;
+            bool textIsSelected = isTextBox && _textBox.SelectionLength > 0;
 
-            this._cutMenuItem      .Enabled = textIsSelected;
-            this._copyMenuItem     .Enabled = textIsSelected;
-            this._pasteMenuItem    .Enabled = isTextBox && Clipboard.ContainsText();
-            this._selectAllMenuItem.Enabled = isTextBox;
+            _cutMenuItem      .Enabled = textIsSelected;
+            _copyMenuItem     .Enabled = textIsSelected;
+            _pasteMenuItem    .Enabled = isTextBox && Clipboard.ContainsText();
+            _selectAllMenuItem.Enabled = isTextBox;
         }
     }
 }

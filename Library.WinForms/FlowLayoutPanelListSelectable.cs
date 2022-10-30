@@ -83,9 +83,9 @@ namespace Library.WinForms
                 }
                 else
                 {
-                    if (this.SelectedItem == DeleteItem)
+                    if (SelectedItem == DeleteItem)
                     {
-                        this.SelectedItem = null;
+                        SelectedItem = null;
                     }
                     DeleteItem.ControlSelected -= NewItem_ControlSelected;
                     DeleteItem.ControlUnSelected -= NewItem_ControlUnSelected;
@@ -105,38 +105,38 @@ namespace Library.WinForms
         {
             if (NewPredicate != null)
             {
-                if (this._originalItems == null)
+                if (_originalItems == null)
                 {
-                    this._originalItems = new List<T>();
-                    this._originalItems.AddRange(this._items.ToArray());
+                    _originalItems = new List<T>();
+                    _originalItems.AddRange(_items.ToArray());
                 }
                 else
                 {
-                    this._items = new List<T>();
-                    this._items.AddRange(this._originalItems.ToArray());
+                    _items = new List<T>();
+                    _items.AddRange(_originalItems.ToArray());
                 }
 
-                List<T> foundItems = this._items.FindAll(NewPredicate);
-                this.AddRange(foundItems);
+                List<T> foundItems = _items.FindAll(NewPredicate);
+                AddRange(foundItems);
             }
         }
 
         public void ClearSearch()
         {
-            if (this._originalItems != null)
+            if (_originalItems != null)
             {
-                this.AddRange(this._originalItems);
-                this._originalItems = null;
+                AddRange(_originalItems);
+                _originalItems = null;
             }
         }
 
         public void AddRange(List<T> NewItems)
         {
-            this.Clear();
+            Clear();
 
             foreach (T item in NewItems)
             {
-                this.AddItem(item);
+                AddItem(item);
             }
         }
 
@@ -166,11 +166,11 @@ namespace Library.WinForms
         /// 
         private void NewItem_ControlSelected(object sender, ControlSelectedEventArgs e)
         {
-            if (this.SelectedItem != null)
+            if (SelectedItem != null)
             {
-                this.SelectedItem.IsSelected = false;
+                SelectedItem.IsSelected = false;
             }
-            this.SelectedItem = e.ControlSelected as T;
+            SelectedItem = e.ControlSelected as T;
             OnItemSelected(e);
         }
 
@@ -180,9 +180,9 @@ namespace Library.WinForms
         /// 
         private void NewItem_ControlUnSelected(object sender, ControlSelectedEventArgs e)
         {
-            if (this.SelectedItem == e.ControlSelected)
+            if (SelectedItem == e.ControlSelected)
             {
-                this.SelectedItem = null;
+                SelectedItem = null;
             }
             OnItemUnSelected(e);
         }

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Library;
 
 namespace Library.WPFControls
 {
@@ -20,19 +9,18 @@ namespace Library.WPFControls
     /// Interaction logic for EnhancedTooltip.xaml
     /// </summary>
     /// 
-    /// 
     public partial class EnhancedTooltip : UserControl, INotifyPropertyChanged
     {
         public EnhancedTooltip()
         {
             InitializeComponent();
-            this.HeaderText = "Header";
-            this.TooltipText = "Tooltip text";
-            this.DataContext = this;
+            HeaderText = "Header";
+            TooltipText = "Tooltip text";
+            DataContext = this;
         }
 
-        public static readonly DependencyProperty HeaderTextProperty  = DependencyProperty.Register("HeaderText",  typeof(string), typeof(EnhancedTooltip));
-        public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register("TooltipText", typeof(string), typeof(EnhancedTooltip));
+        public static readonly DependencyProperty HeaderTextProperty  = DependencyProperty.Register(nameof(HeaderText),  typeof(string), typeof(EnhancedTooltip));
+        public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(EnhancedTooltip));
 
 
         /// <summary>
@@ -41,18 +29,12 @@ namespace Library.WPFControls
         /// 
         public string HeaderText
         {
-            get
-            {
-                return (string)this.GetValue(HeaderTextProperty);
-            }
+            get => (string)GetValue(HeaderTextProperty);
 
             set
             {
-                if (value != null)
-                {
-                    this.SetValue(HeaderTextProperty, value);
-                    this.NotifyPropertyChanged("HeaderText");
-                }
+                SetValue(HeaderTextProperty, value ?? string.Empty);
+                NotifyPropertyChanged();
             }
         }
 
@@ -62,23 +44,20 @@ namespace Library.WPFControls
         /// 
         public string TooltipText
         {
-            get
-            {
-                return (string) this.GetValue(TooltipTextProperty);
-            }
+            get => (string)GetValue(TooltipTextProperty);
 
             set
             {
-                if (value != null)
-                {
-                    this.SetValue(TooltipTextProperty, value);
-                    this.NotifyPropertyChanged("TooltipText");
-                }
+                SetValue(TooltipTextProperty, value ?? string.Empty);
+                NotifyPropertyChanged();
             }
         }
 
 
-
+        /// <summary>
+        /// Fired when a value of a property has been updated.
+        /// </summary>
+        /// 
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -90,15 +69,9 @@ namespace Library.WPFControls
         /// The name of the property being changed.
         /// </param>
         /// 
-        private void NotifyPropertyChanged(string PropertyName)
+        private void NotifyPropertyChanged([CallerMemberName] string PropertyName = null)
         {
-            if (PropertyChanged != null)
-            {
-                if (!PropertyName.IsEmpty())
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-                }
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 
     }

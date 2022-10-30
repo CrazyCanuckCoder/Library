@@ -45,7 +45,7 @@ namespace Library
 
         public MillerItemEventArgs(IMillerItem NewMillerItem)
         {
-            this.MillerItem = NewMillerItem;
+            MillerItem = NewMillerItem;
         }
     }
 
@@ -56,8 +56,8 @@ namespace Library
 
         public MillerItemMovedEventArgs(Control NewMovedItem, Control NewReplacedItem)
         {
-            this.MovedItem    = NewMovedItem;
-            this.ReplacedItem = NewReplacedItem;
+            MovedItem    = NewMovedItem;
+            ReplacedItem = NewReplacedItem;
         }
     }
 
@@ -68,8 +68,8 @@ namespace Library
 
         public DateRangeChangedEventArgs(DateTime NewStartDate, DateTime NewEndDate)
         {
-            this.StartDate = NewStartDate;
-            this.EndDate   = NewEndDate;
+            StartDate = NewStartDate;
+            EndDate   = NewEndDate;
         }
     }
 

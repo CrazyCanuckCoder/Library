@@ -10,8 +10,8 @@ namespace Library.WPFControls
     {
         public CheckedListItem(string NewColumnName, bool CheckedState)
         {
-            this.ColumnName = NewColumnName;
-            this.ItemIsChecked = CheckedState;
+            ColumnName = NewColumnName;
+            ItemIsChecked = CheckedState;
         }
 
         private string _columnName = "";
@@ -22,15 +22,15 @@ namespace Library.WPFControls
         {
             get
             {
-                return this._columnName;
+                return _columnName;
             }
 
             set
             {
-                if (value != null && value != this._columnName)
+                if (value != null && value != _columnName)
                 {
-                    this._columnName = value;
-                    this.OnPropertyChanged("ColumnName");
+                    _columnName = value;
+                    OnPropertyChanged("ColumnName");
                 }
             }
         }
@@ -39,15 +39,15 @@ namespace Library.WPFControls
         {
             get
             {
-                return this._isChecked;
+                return _isChecked;
             }
 
             set
             {
-                if (value != this._isChecked)
+                if (value != _isChecked)
                 {
-                    this._isChecked = value;
-                    this.OnPropertyChanged("ItemIsChecked");
+                    _isChecked = value;
+                    OnPropertyChanged("ItemIsChecked");
                 }
             }
         }

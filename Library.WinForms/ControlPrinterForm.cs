@@ -29,8 +29,8 @@ namespace Library.WinForms
             }
             else
             {
-                this._controlToPrint = NewControl;
-                this.AddControlToForm();
+                _controlToPrint = NewControl;
+                AddControlToForm();
             }
         }
 
@@ -56,16 +56,16 @@ namespace Library.WinForms
         {
             //  Add the control to the form.
 
-            this.borderPanelBase.Controls.Add(this._controlToPrint);
+            borderPanelBase.Controls.Add(_controlToPrint);
 
             //  Set the control up.
 
-            this._controlToPrint.Anchor   = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
-            this._controlToPrint.Font     = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this._controlToPrint.Location = new Point(3, 3);
-            this._controlToPrint.Name     = "ControlToPrint";
-            this._controlToPrint.Size     = new Size(this.Width - 6, this.Height - 6);
-            this._controlToPrint.TabIndex = 0;
+            _controlToPrint.Anchor   = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
+            _controlToPrint.Font     = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            _controlToPrint.Location = new Point(3, 3);
+            _controlToPrint.Name     = "ControlToPrint";
+            _controlToPrint.Size     = new Size(Width - 6, Height - 6);
+            _controlToPrint.TabIndex = 0;
         }
     }
 }

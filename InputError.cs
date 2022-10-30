@@ -23,8 +23,8 @@ namespace Library
 
         public InputError(Control NewControl, string NewMessage)
         {
-            this.ErrorControl = NewControl;
-            this.ErrorMessage = NewMessage;
+            ErrorControl = NewControl;
+            ErrorMessage = NewMessage;
         }
     }
 }

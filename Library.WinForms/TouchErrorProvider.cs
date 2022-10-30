@@ -32,9 +32,9 @@ namespace Library.WinForms
 
             public ErrorInfo(string NewErrorText, Control NewIconControl)
             {
-                this.ErrorText     = NewErrorText;
-                this.IconControl   = NewIconControl;
-                this.IconAlignment = ErrorIconAlignment.MiddleRight;
+                ErrorText     = NewErrorText;
+                IconControl   = NewIconControl;
+                IconAlignment = ErrorIconAlignment.MiddleRight;
             }
         }
 
@@ -66,19 +66,19 @@ namespace Library.WinForms
         {
             get
             {
-                if (this._toolTipProvider == null)
+                if (_toolTipProvider == null)
                 {
-                    this._toolTipProvider = this.toolTip;
+                    _toolTipProvider = toolTip;
                 }
 
-                return this._toolTipProvider;
+                return _toolTipProvider;
             }
 
             private set
             {
                 if (value != null)
                 {
-                    this.toolTip = value;
+                    toolTip = value;
                 }
             }
         }
@@ -91,12 +91,12 @@ namespace Library.WinForms
         {
             get
             {
-                return this.pictureBoxIcon.Image;
+                return pictureBoxIcon.Image;
             }
 
             set
             {
-                this.pictureBoxIcon.Image = value;
+                pictureBoxIcon.Image = value;
             }
         }
 
@@ -108,7 +108,7 @@ namespace Library.WinForms
         {
             get
             {
-                return this._dictionary.Keys.Count > 0;
+                return _dictionary.Keys.Count > 0;
             }
         }
 
@@ -146,7 +146,7 @@ namespace Library.WinForms
         {
             if (NewProvider != null)
             {
-                this.ToolTipProvider = NewProvider;
+                ToolTipProvider = NewProvider;
             }
             else
             {
@@ -168,7 +168,7 @@ namespace Library.WinForms
         /// 
         public void SetError(Control ErrorControl, string ErrorText)
         {
-            this.SetError(ErrorControl, ErrorControl, ErrorText, ErrorIconAlignment.MiddleRight);
+            SetError(ErrorControl, ErrorControl, ErrorText, ErrorIconAlignment.MiddleRight);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Library.WinForms
         /// 
         public void SetError(Control ErrorControl, Control IconControl, string ErrorText)
         {
-            this.SetError(ErrorControl, IconControl, ErrorText, ErrorIconAlignment.MiddleRight);
+            SetError(ErrorControl, IconControl, ErrorText, ErrorIconAlignment.MiddleRight);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Library.WinForms
         /// 
         public void SetError(Control ErrorControl, string ErrorText, ErrorIconAlignment IconAlignment)
         {
-            this.SetError(ErrorControl, ErrorControl, ErrorText, IconAlignment);
+            SetError(ErrorControl, ErrorControl, ErrorText, IconAlignment);
         }
 
         /// <summary>
@@ -253,29 +253,29 @@ namespace Library.WinForms
             {
                 if (IconControl != null)
                 {
-                    if (!ErrorText.IsEmpty())
+                    if (!string.IsNullOrEmpty(ErrorText))
                     {
-                        if (!this._dictionary.ContainsKey(ErrorControl))
+                        if (!_dictionary.ContainsKey(ErrorControl))
                         {
                             ErrorInfo errorInfo = new ErrorInfo(ErrorText, IconControl);
                             errorInfo.IconAlignment = IconAlignment;
 
                             //  Add the icon image to the current form and dictionary.
 
-                            PictureBox newIcon = this.pictureBoxIcon.Clone();
+                            PictureBox newIcon = pictureBoxIcon.Clone();
                             newIcon.Parent = IconControl.Parent;
-                            this.SetIconLocation(IconControl, newIcon, errorInfo.IconAlignment);
+                            SetIconLocation(IconControl, newIcon, errorInfo.IconAlignment);
                             newIcon.TabIndex = 0;
                             IconControl.Parent.Controls.Add(newIcon);
                             errorInfo.IconBox = newIcon;
 
                             //  Add the error text to the error control's tooltip text.
 
-                            this.ToolTipProvider.SetToolTip(ErrorControl, ErrorText);
+                            ToolTipProvider.SetToolTip(ErrorControl, ErrorText);
 
                             //  Create the error instance.
 
-                            this._dictionary.Add(ErrorControl, errorInfo);
+                            _dictionary.Add(ErrorControl, errorInfo);
                         }
                         else
                         {
@@ -316,9 +316,9 @@ namespace Library.WinForms
 
             if (ErrorControl != null)
             {
-                if (this._dictionary.ContainsKey(ErrorControl))
+                if (_dictionary.ContainsKey(ErrorControl))
                 {
-                    error = this._dictionary[ErrorControl].ErrorText;
+                    error = _dictionary[ErrorControl].ErrorText;
                 }
             }
             else
@@ -336,13 +336,13 @@ namespace Library.WinForms
         /// 
         public void Clear()
         {
-            foreach (KeyValuePair<Control, ErrorInfo> kvp in this._dictionary)
+            foreach (KeyValuePair<Control, ErrorInfo> kvp in _dictionary)
             {
                 kvp.Key.Parent.Controls.Remove(kvp.Value.IconBox);
             }
 
-            this.ToolTipProvider.RemoveAll();
-            this._dictionary = new Dictionary<Control, ErrorInfo>();
+            ToolTipProvider.RemoveAll();
+            _dictionary = new Dictionary<Control, ErrorInfo>();
         }
 
         /// <summary>
@@ -363,9 +363,9 @@ namespace Library.WinForms
             {
                 if (IconControl != null)
                 {
-                    if (this._dictionary.ContainsKey(ErrorControl))
+                    if (_dictionary.ContainsKey(ErrorControl))
                     {
-                        this._dictionary[ErrorControl].IconControl = IconControl;
+                        _dictionary[ErrorControl].IconControl = IconControl;
                     }
                     else
                     {
@@ -401,9 +401,9 @@ namespace Library.WinForms
 
             if (ErrorControl != null)
             {
-                if (this._dictionary.ContainsKey(ErrorControl))
+                if (_dictionary.ContainsKey(ErrorControl))
                 {
-                    iconControl = this._dictionary[ErrorControl].IconControl;
+                    iconControl = _dictionary[ErrorControl].IconControl;
                 }
                 else
                 {
@@ -431,11 +431,11 @@ namespace Library.WinForms
         {
             if (ErrorControl != null)
             {
-                if (this._dictionary.ContainsKey(ErrorControl))
+                if (_dictionary.ContainsKey(ErrorControl))
                 {
-                    this._dictionary[ErrorControl].IconControl.Parent.Controls.Remove(this._dictionary[ErrorControl].IconBox);
-                    this._toolTipProvider.SetToolTip(ErrorControl, "");
-                    this._dictionary.Remove(ErrorControl);
+                    _dictionary[ErrorControl].IconControl.Parent.Controls.Remove(_dictionary[ErrorControl].IconBox);
+                    _toolTipProvider.SetToolTip(ErrorControl, "");
+                    _dictionary.Remove(ErrorControl);
                 }
                 else
                 {
@@ -464,11 +464,11 @@ namespace Library.WinForms
         {
             if (ErrorControl != null)
             {
-                if (this._dictionary.ContainsKey(ErrorControl))
+                if (_dictionary.ContainsKey(ErrorControl))
                 {
-                    ErrorInfo errorInfo = this._dictionary[ErrorControl];
+                    ErrorInfo errorInfo = _dictionary[ErrorControl];
                     errorInfo.IconAlignment = NewErrorLocation;
-                    this.SetIconLocation(errorInfo.IconControl, errorInfo.IconBox, errorInfo.IconAlignment);
+                    SetIconLocation(errorInfo.IconControl, errorInfo.IconBox, errorInfo.IconAlignment);
                 }
                 else
                 {
@@ -499,9 +499,9 @@ namespace Library.WinForms
 
             if (ErrorControl != null)
             {
-                if (this._dictionary.ContainsKey(ErrorControl))
+                if (_dictionary.ContainsKey(ErrorControl))
                 {
-                    alignment = this._dictionary[ErrorControl].IconAlignment;
+                    alignment = _dictionary[ErrorControl].IconAlignment;
                 }
                 else
                 {

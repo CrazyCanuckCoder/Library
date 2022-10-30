@@ -78,10 +78,7 @@ namespace Library
         /// 
         public static string ErrorMessage
         {
-            get
-            {
-                return _errorMessage;
-            }
+            get => _errorMessage;
 
             private set
             {
@@ -111,7 +108,7 @@ namespace Library
         /// True if the email was sent successfully.
         /// </returns>
         /// 
-        public static bool SendEmail(Emails.Message MessageSettings, Emails.Server ServerSettings)
+        public static bool SendEmail(Message MessageSettings, Server ServerSettings)
         {
             return SendEmailWithAttachment(MessageSettings, "", ServerSettings);
         }
@@ -136,7 +133,7 @@ namespace Library
         /// True if the email was sent successfully.
         /// </returns>
         /// 
-        public static bool SendEmailWithAttachment(Emails.Message MessageSettings, string AttachmentPath, Emails.Server ServerSettings)
+        public static bool SendEmailWithAttachment(Message MessageSettings, string AttachmentPath, Server ServerSettings)
         {
             Attachment attachment = null;
             if (!string.IsNullOrEmpty(AttachmentPath) && File.Exists(AttachmentPath))
@@ -167,7 +164,7 @@ namespace Library
         /// True if the email was sent successfully.
         /// </returns>
         /// 
-        public static bool SendEmailWithAttachment(Emails.Message MessageSettings, Attachment EmailAttachment, Emails.Server ServerSettings)
+        public static bool SendEmailWithAttachment(Message MessageSettings, Attachment EmailAttachment, Server ServerSettings)
         {
             bool emailSent = false;
 

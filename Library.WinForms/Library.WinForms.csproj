@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Library.WinForms</RootNamespace>
     <AssemblyName>Library.WinForms</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingsManager.cs" />
+    <Compile Include="BaseDataClass.cs" />
     <Compile Include="BaseDataEntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +141,8 @@
     <Compile Include="FlowLayoutPanelListSelectable.designer.cs">
       <DependentUpon>FlowLayoutPanelListSelectable.cs</DependentUpon>
     </Compile>
+    <Compile Include="IBaseDataClass.cs" />
+    <Compile Include="IInputPanel.cs" />
     <Compile Include="ImageButton.cs">
       <SubType>UserControl</SubType>
     </Compile>

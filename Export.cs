@@ -24,7 +24,7 @@ namespace Library
         /// 
         public static void DataTableToCSV(string FilePath, DataTable SourceTable)
         {
-            Export.DataTableToCSV(FilePath, SourceTable, true, null);
+            DataTableToCSV(FilePath, SourceTable, true, null);
         }
 
 
@@ -48,7 +48,7 @@ namespace Library
         /// 
         public static void DataTableToCSV(string FilePath, DataTable SourceTable, bool WriteColumnHeaders)
         {
-            Export.DataTableToCSV(FilePath, SourceTable, WriteColumnHeaders, null);
+            DataTableToCSV(FilePath, SourceTable, WriteColumnHeaders, null);
         }
 
 

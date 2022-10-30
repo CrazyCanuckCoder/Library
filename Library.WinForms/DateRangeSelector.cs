@@ -82,8 +82,8 @@ namespace Library.WinForms
 
         public DateRangeSelector(Func<T, DateRangeResult> NewDetermineDateRange) : this()
         {
-            this.DetermineDateRange = NewDetermineDateRange;
-            this.SetupComboBox();
+            DetermineDateRange = NewDetermineDateRange;
+            SetupComboBox();
         }
 
 
@@ -106,7 +106,7 @@ namespace Library.WinForms
         {
             get
             {
-                return this.dateTimePickerStartDate.Value;
+                return dateTimePickerStartDate.Value;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Library.WinForms
         {
             get
             {
-                return this.dateTimePickerEndDate.Value;
+                return dateTimePickerEndDate.Value;
             }
         }
 
@@ -147,7 +147,7 @@ namespace Library.WinForms
         /// 
         private void OnDateRangeChanged()
         {
-            this.DateRangeChanged?.Invoke(this, new DateRangeChangedEventArgs(this.StartDate, this.EndDate));
+            DateRangeChanged?.Invoke(this, new DateRangeChangedEventArgs(StartDate, EndDate));
         }
 
         /// <summary>
@@ -161,10 +161,10 @@ namespace Library.WinForms
                 throw new ArgumentException("T for DateRangeSelector must be an enumerated type.");
             }
 
-            this.comboBoxDateRange.Items.AddRange(Enum.GetNames(typeof(T)));
+            comboBoxDateRange.Items.AddRange(Enum.GetNames(typeof(T)));
 
-            this.comboBoxDateRange.Items.Add(CUSTOM_RANGE_CHOICE);
-            this.comboBoxDateRange.SelectedIndex = 0;
+            comboBoxDateRange.Items.Add(CUSTOM_RANGE_CHOICE);
+            comboBoxDateRange.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -183,17 +183,17 @@ namespace Library.WinForms
         {
             if (RangeChoice != null)
             {
-                this.dateTimePickerStartDate.Enabled = (RangeChoice == CUSTOM_RANGE_CHOICE);
-                this.dateTimePickerEndDate  .Enabled = (RangeChoice == CUSTOM_RANGE_CHOICE);
+                dateTimePickerStartDate.Enabled = (RangeChoice == CUSTOM_RANGE_CHOICE);
+                dateTimePickerEndDate  .Enabled = (RangeChoice == CUSTOM_RANGE_CHOICE);
 
                 if (Enum.GetNames(typeof(T)).Contains(RangeChoice))
                 {
-                    if (this.DetermineDateRange != null)
+                    if (DetermineDateRange != null)
                     {
-                        DateRangeResult newDateRange = this.DetermineDateRange((T) Enum.Parse(typeof(T), RangeChoice));
+                        DateRangeResult newDateRange = DetermineDateRange((T) Enum.Parse(typeof(T), RangeChoice));
 
-                        this.dateTimePickerStartDate.Value = newDateRange.Start;
-                        this.dateTimePickerEndDate  .Value = newDateRange.End;
+                        dateTimePickerStartDate.Value = newDateRange.Start;
+                        dateTimePickerEndDate  .Value = newDateRange.End;
                     }
                     else
                     {
@@ -217,28 +217,28 @@ namespace Library.WinForms
 
         private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
         {
-            this.labelStartDate.Text = this.StartDate.ToString("dddd MMMM d, yyyy");
+            labelStartDate.Text = StartDate.ToString("dddd MMMM d, yyyy");
         }
 
         private void dateTimePickerEndDate_ValueChanged(object sender, EventArgs e)
         {
-            this.labelEndDate.Text = this.EndDate.ToString("dddd MMMM d, yyyy");
+            labelEndDate.Text = EndDate.ToString("dddd MMMM d, yyyy");
         }
 
         private void comboBoxDateRange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SetDateRange(this.comboBoxDateRange.SelectedItem.ToString());
+            SetDateRange(comboBoxDateRange.SelectedItem.ToString());
         }
 
         private void buttonGo_Click(object sender, EventArgs e)
         {
-            if (this.EndDate >= this.StartDate)
+            if (EndDate >= StartDate)
             {
-                this.OnDateRangeChanged();
+                OnDateRangeChanged();
             }
             else
             {
-                Utility.ShowError(this.FindForm(), "End date must be later than or equal to the start date.");
+                Utility.ShowError(FindForm(), "End date must be later than or equal to the start date.");
             }
         }
     }

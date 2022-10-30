@@ -116,7 +116,7 @@ namespace Library.WinForms
         {
             DataEntryType = ActionType;
             T actionItem = (ActionType == EntryType.Add) ? new T() : (T) comboBoxItems.SelectedItem;
-            EntryPanel.SourceInfo = actionItem;
+            EntryPanel.SourceInfo = (IBaseDataClass)actionItem;
 
             EnableEditingControls();
             DisableSelectionControls();

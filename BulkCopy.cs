@@ -9,7 +9,7 @@ namespace Library
     {
         public BulkCopy(string NewConnectionString)
         {
-            this.ConnectionString = NewConnectionString;
+            ConnectionString = NewConnectionString;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Library
             {
                 if (DataList != null && DataList.Count > 0)
                 {
-                    this.InsertData(SqlTableName, DataList.ConvertToDataTable());
+                    InsertData(SqlTableName, DataList.ConvertToDataTable());
                 }
                 else
                 {
@@ -88,7 +88,7 @@ namespace Library
             {
                 if (DataToInsert != null && DataToInsert.Rows.Count > 0)
                 {
-                    using (SqlBulkCopy bulkcopy = new SqlBulkCopy(this.ConnectionString))
+                    using (SqlBulkCopy bulkcopy = new SqlBulkCopy(ConnectionString))
                     {
                         bulkcopy.BulkCopyTimeout      = (int) TimeSpan.FromMinutes(10).TotalSeconds;
                         bulkcopy.DestinationTableName = SqlTableName;

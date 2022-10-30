@@ -58,7 +58,7 @@ namespace Library
                     Quadrant3,
                     Quadrant4
                 };
-            this.Quadrants = newQuadrants;
+            Quadrants = newQuadrants;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Library
         /// 
         public IPv4Address(int[] NewQuadrants)
         {
-            this.Quadrants = NewQuadrants;
+            Quadrants = NewQuadrants;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Library
         /// 
         public IPv4Address(string NewIPAddress)
         {
-            this.ConvertStringToQuadrants(NewIPAddress);
+            ConvertStringToQuadrants(NewIPAddress);
         }
 
 
@@ -112,7 +112,7 @@ namespace Library
         {
             get
             {
-                return this._quadrants;
+                return _quadrants;
             }
 
             set
@@ -129,7 +129,7 @@ namespace Library
                         {
                             if (value[idx].IsBetween(MIN_QUADRANT_VALUE, MAX_QUADRANT_VALUE))
                             {
-                                this._quadrants[idx] = value[idx];
+                                _quadrants[idx] = value[idx];
                             }
                             else
                             {
@@ -171,7 +171,7 @@ namespace Library
         /// 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as IPv4Address);
+            return Equals(obj as IPv4Address);
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Library
         {
             string addressText = "";
 
-            if (!this.Equals(IPv4Address.Empty))
+            if (!Equals(IPv4Address.Empty))
             {
                 addressText = $"{Quadrants[0]}.{Quadrants[1]}.{Quadrants[2]}.{Quadrants[3]}";
             }
@@ -262,7 +262,7 @@ namespace Library
                     //  Assign the converted ints to the int array property where
                     //    it will be checked for valid quadrant numbers.
 
-                    this.Quadrants = newQuadrants;
+                    Quadrants = newQuadrants;
                 }
                 else
                 {

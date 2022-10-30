@@ -33,8 +33,8 @@ namespace Library
             RijndaelManaged rm = new RijndaelManaged();
 
             //Create an encryptor and a decryptor using our encryption method, key, and vector.
-            _encryptorTransform = rm.CreateEncryptor(this._key, this._vector);
-            _decryptorTransform = rm.CreateDecryptor(this._key, this._vector);
+            _encryptorTransform = rm.CreateEncryptor(_key, _vector);
+            _decryptorTransform = rm.CreateDecryptor(_key, _vector);
 
             //Used to translate bytes to text and vice versa
             _utfEncoder = new System.Text.UTF8Encoding();

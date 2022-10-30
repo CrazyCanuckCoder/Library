@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Library.WPFControls
 {
@@ -28,18 +18,18 @@ namespace Library.WPFControls
 
             //  Create the array that reference the textbox controls for easy manipulation later.
 
-            this._textBoxRefs = new TextBox[]
+            _textBoxRefs = new TextBox[]
                 {
-                    this.TextBoxQuadrant1,
-                    this.TextBoxQuadrant2,
-                    this.TextBoxQuadrant3,
-                    this.TextBoxQuadrant4
+                    TextBoxQuadrant1,
+                    TextBoxQuadrant2,
+                    TextBoxQuadrant3,
+                    TextBoxQuadrant4
                 };
         }
 
         public IPAddressInput(IPv4Address NewAddress) : this()
         {
-            this.Address = NewAddress;
+            Address = NewAddress;
         }
 
         /// <summary>
@@ -60,8 +50,7 @@ namespace Library.WPFControls
 
                 for (int idx = 0; idx < quadrants.Length; idx++)
                 {
-                    int tempNum = 0;
-                    int.TryParse(this._textBoxRefs[idx].Text, out tempNum);
+                    int.TryParse(_textBoxRefs[idx].Text, out int tempNum);
                     quadrants[idx] = tempNum;
                 }
 
@@ -74,7 +63,7 @@ namespace Library.WPFControls
                 {
                     for (int idx = 0; idx < value.Quadrants.Length; idx++)
                     {
-                        this._textBoxRefs[idx].Text = value.Quadrants[idx].ToString();
+                        _textBoxRefs[idx].Text = value.Quadrants[idx].ToString();
                     }
                 }
             }
@@ -123,9 +112,7 @@ namespace Library.WPFControls
                         //    a numeric value to ensure it is not greater than the 
                         //    maximum value allowed for a quadrant.
 
-                        int quadrantValue = 0;
-
-                        int.TryParse(tempText, out quadrantValue);
+                        int.TryParse(tempText, out int quadrantValue);
                         if (quadrantValue > IPv4Address.MAX_QUADRANT_VALUE)
                         {
                             E.Handled = true;
@@ -219,17 +206,17 @@ namespace Library.WPFControls
             {
                 if (KeyInfo.Key == Key.Home)
                 {
-                    if (this.TextBoxQuadrant1.Focus())
+                    if (TextBoxQuadrant1.Focus())
                     {
-                        this.TextBoxQuadrant1.SelectionStart = 0;
+                        TextBoxQuadrant1.SelectionStart = 0;
                     }
                     keysPressed = true;
                 }
                 else if (KeyInfo.Key == Key.End)
                 {
-                    if (this.TextBoxQuadrant4.Focus())
+                    if (TextBoxQuadrant4.Focus())
                     {
-                        this.TextBoxQuadrant4.SelectionStart = this.TextBoxQuadrant4.Text.Length;
+                        TextBoxQuadrant4.SelectionStart = TextBoxQuadrant4.Text.Length;
                     }
                     keysPressed = true;
                 }
@@ -246,10 +233,9 @@ namespace Library.WPFControls
         /// 
         private void TextBoxQuadrant1_OnPreviewKeyDown(object Sender, KeyEventArgs E)
         {
-            if (!this.HomeOrEndKeyPressed(E))
+            if (!HomeOrEndKeyPressed(E))
             {
-                TextBox textBox = null;
-                if (this.NoSelectedTextInTextBox(Sender, out textBox))
+                if (NoSelectedTextInTextBox(Sender, out TextBox textBox))
                 {
                     if (textBox.SelectionStart == textBox.Text.Length)
                     {
@@ -269,10 +255,10 @@ namespace Library.WPFControls
         /// 
         private void MiddleQuadrant_OnPreviewKeyDown(object Sender, KeyEventArgs E)
         {
-            if (!this.HomeOrEndKeyPressed(E))
+            if (!HomeOrEndKeyPressed(E))
             {
                 TextBox textBox = null;
-                if (this.NoSelectedTextInTextBox(Sender, out textBox))
+                if (NoSelectedTextInTextBox(Sender, out textBox))
                 {
                     //  Is the cursor at the start of the textbox?
 
@@ -322,10 +308,10 @@ namespace Library.WPFControls
         /// 
         private void TextBoxQuadrant4_OnPreviewKeyDown(object Sender, KeyEventArgs E)
         {
-            if (!this.HomeOrEndKeyPressed(E))
+            if (!HomeOrEndKeyPressed(E))
             {
                 TextBox textBox = null;
-                if (this.NoSelectedTextInTextBox(Sender, out textBox))
+                if (NoSelectedTextInTextBox(Sender, out textBox))
                 {
                     if (textBox.SelectionStart == 0)
                     {

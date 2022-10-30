@@ -35,7 +35,7 @@ namespace Library.WinForms
 
             set
             {
-                if (!value.IsEmpty())
+                if (!string.IsNullOrEmpty(value))
                 {
                     _dateFormat = value;
                     UpdateTimeDisplay();

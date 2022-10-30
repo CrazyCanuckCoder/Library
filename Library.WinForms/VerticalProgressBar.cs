@@ -26,17 +26,17 @@ namespace Library.WinForms
         {
             get
             {
-                return this._percentValue;
+                return _percentValue;
             }
 
             set
             {
                 if (value.IsBetween(0, 100))
                 {
-                    double heightFactor = this.Height / 100.0d;
-                    this._percentValue = value;
-                    this.labelProgress.Height = (int) (heightFactor * this._percentValue);
-                    this.labelProgress.Location = new Point(0, this.Height - this.labelProgress.Height);
+                    double heightFactor = Height / 100.0d;
+                    _percentValue = value;
+                    labelProgress.Height = (int) (heightFactor * _percentValue);
+                    labelProgress.Location = new Point(0, Height - labelProgress.Height);
                 }
             }
         }
@@ -45,13 +45,13 @@ namespace Library.WinForms
         {
             get
             {
-                return this._progressColour;
+                return _progressColour;
             }
 
             set
             {
-                this._progressColour = value;
-                this.labelProgress.BackColor = value;
+                _progressColour = value;
+                labelProgress.BackColor = value;
             }
         }
     }

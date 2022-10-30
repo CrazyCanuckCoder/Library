@@ -37,14 +37,14 @@ namespace Library.WPFControls
         {
             get
             {
-                return this._regularExpressionTest;
+                return _regularExpressionTest;
             }
 
             set
             {
                 if (value != null)
                 {
-                    this._regularExpressionTest = value.Trim();
+                    _regularExpressionTest = value.Trim();
                 }
             }
         }
@@ -55,14 +55,14 @@ namespace Library.WPFControls
         {
             get
             {
-                return this._regExFailureText;
+                return _regExFailureText;
             }
 
             set
             {
                 if (value != null)
                 {
-                    this._regExFailureText = value.Trim();
+                    _regExFailureText = value.Trim();
                 }
             }
         }
@@ -75,10 +75,10 @@ namespace Library.WPFControls
             {
                 List<string> stringList = new List<string>();
 
-                if (this.ListBoxEntries.Items.Count > 0)
+                if (ListBoxEntries.Items.Count > 0)
                 {
-                    string[] entries = new string[this.ListBoxEntries.Items.Count];
-                    this.ListBoxEntries.Items.CopyTo(entries, 0);
+                    string[] entries = new string[ListBoxEntries.Items.Count];
+                    ListBoxEntries.Items.CopyTo(entries, 0);
                     stringList.AddRange(entries);
                 }
 
@@ -91,7 +91,7 @@ namespace Library.WPFControls
         {
             get
             {
-                List<string> origList = this.StringList;
+                List<string> origList = StringList;
                 StringBuilder delimList = new StringBuilder();
 
                 foreach (string entry in origList)
@@ -108,14 +108,14 @@ namespace Library.WPFControls
         {
             get
             {
-                return this.LabelDescription.Content.ToString();
+                return LabelDescription.Content.ToString();
             }
 
             set
             {
                 if (value != null)
                 {
-                    this.LabelDescription.Content = value;
+                    LabelDescription.Content = value;
                 }
             }
         }
@@ -125,12 +125,12 @@ namespace Library.WPFControls
         {
             get
             {
-                return this.LabelDescription.IsVisible;
+                return LabelDescription.IsVisible;
             }
 
             set
             {
-                this.LabelDescription.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                LabelDescription.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -141,25 +141,25 @@ namespace Library.WPFControls
         /// 
         private void AddEntry()
         {
-            string newEntry = this.TextBoxEntries.Text;
+            string newEntry = TextBoxEntries.Text;
 
-            if (!newEntry.IsEmpty())
+            if (!string.IsNullOrEmpty(newEntry))
             {
                 bool canAddEntry = true;
-                if (!this.RegularExpressionTest.IsEmpty())
+                if (!string.IsNullOrEmpty(RegularExpressionTest))
                 {
-                    canAddEntry = Regex.IsMatch(newEntry, this.RegularExpressionTest, RegexOptions.IgnoreCase);
+                    canAddEntry = Regex.IsMatch(newEntry, RegularExpressionTest, RegexOptions.IgnoreCase);
 
-                    if (!canAddEntry && !this.RegExFailureText.IsEmpty())
+                    if (!canAddEntry && !string.IsNullOrEmpty(RegExFailureText))
                     {
-                        Utility.ShowError(null, this.RegExFailureText);
+                        Utility.ShowError(null, RegExFailureText);
                     }
                 }
 
                 if (canAddEntry)
                 {
-                    this.ListBoxEntries.Items.Add(newEntry);
-                    this.TextBoxEntries.Text = "";
+                    ListBoxEntries.Items.Add(newEntry);
+                    TextBoxEntries.Text = "";
                 }
             }
             else
@@ -176,11 +176,11 @@ namespace Library.WPFControls
         /// 
         private void DeleteEntry()
         {
-            if (this.ListBoxEntries.SelectedItem != null)
+            if (ListBoxEntries.SelectedItem != null)
             {
-                if (Utility.Confirm(null, "Are you sure you want to delete " + this.ListBoxEntries.SelectedItem.ToString() + " from the list?"))
+                if (Utility.Confirm(null, "Are you sure you want to delete " + ListBoxEntries.SelectedItem.ToString() + " from the list?"))
                 {
-                    this.ListBoxEntries.Items.Remove(this.ListBoxEntries.SelectedItem);
+                    ListBoxEntries.Items.Remove(ListBoxEntries.SelectedItem);
                 }
             }
         }
@@ -192,28 +192,28 @@ namespace Library.WPFControls
         {
             if (E.Key == Key.Enter)
             {
-                this.AddEntry();
+                AddEntry();
             }
         }
 
         private void ListBoxEntries_OnSelectionChanged(object Sender, SelectionChangedEventArgs E)
         {
-            this.ButtonDeleteEntry.IsEnabled = this.ListBoxEntries.SelectedItem != null;
+            ButtonDeleteEntry.IsEnabled = ListBoxEntries.SelectedItem != null;
         }
 
         private void ButtonDeleteEntry_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.DeleteEntry();
+            DeleteEntry();
         }
 
         private void ButtonAddEntry_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.AddEntry();
+            AddEntry();
         }
 
         private void TextBoxEntries_OnTextChanged(object Sender, TextChangedEventArgs E)
         {
-            this.ButtonAddEntry.IsEnabled = !this.TextBoxEntries.Text.IsEmpty();
+            ButtonAddEntry.IsEnabled = !string.IsNullOrEmpty(TextBoxEntries.Text);
         }
     }
 }

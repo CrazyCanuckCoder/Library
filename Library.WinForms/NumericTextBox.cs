@@ -11,7 +11,7 @@ namespace Library.WinForms
     {
         public NumericTextBox()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -21,14 +21,14 @@ namespace Library.WinForms
             get
             {
                 int intValue = 0;
-                int.TryParse(this.Text, out intValue);
+                int.TryParse(Text, out intValue);
 
                 return intValue;
             }
 
             set
             {
-                this.Text = value.ToString();
+                Text = value.ToString();
             }
         }
 
@@ -39,23 +39,23 @@ namespace Library.WinForms
             get
             {
                 double doubleValue = 0d;
-                double.TryParse(this.Text, out doubleValue);
+                double.TryParse(Text, out doubleValue);
 
                 return doubleValue;
             }
 
             set
             {
-                this.Text = value.ToString();
+                Text = value.ToString();
             }
         }
 
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            this.KeyPress += this.NumericTextBox_KeyPress;
-            this.ResumeLayout(false);
+            SuspendLayout();
+            KeyPress += NumericTextBox_KeyPress;
+            ResumeLayout(false);
         }
 
 

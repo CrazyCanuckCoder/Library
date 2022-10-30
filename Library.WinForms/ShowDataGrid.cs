@@ -18,25 +18,25 @@ namespace Library.WinForms
 
         public ShowDataGrid(DataTable SourceData, string DialogTitle) : this()
         {
-            this.Text = DialogTitle;
-            this.dataGridView.DataSource = SourceData;
+            Text = DialogTitle;
+            dataGridView.DataSource = SourceData;
         }
 
         private DataGridSettings _gridSettings = new DataGridSettings(true, true, new List<string>());
 
         private void ExportData()
         {
-            if (!this.filePicker.ChosenFile.IsEmpty())
+            if (!string.IsNullOrEmpty(filePicker.ChosenFile))
             {
                 try
                 {
-                    if (this._gridSettings.ExportAllColumns)
+                    if (_gridSettings.ExportAllColumns)
                     {
-                        Export.DataTableToCSV(this.filePicker.ChosenFile, this.dataGridView.DataSource as DataTable, this._gridSettings.IncludeColumnHeaders);
+                        Export.DataTableToCSV(filePicker.ChosenFile, dataGridView.DataSource as DataTable, _gridSettings.IncludeColumnHeaders);
                     }
                     else
                     {
-                        Export.DataTableToCSV(this.filePicker.ChosenFile, this.dataGridView.DataSource as DataTable, this._gridSettings.IncludeColumnHeaders, this._gridSettings.ColumnsToExport);
+                        Export.DataTableToCSV(filePicker.ChosenFile, dataGridView.DataSource as DataTable, _gridSettings.IncludeColumnHeaders, _gridSettings.ColumnsToExport);
                     }
 
                     Utility.ShowMessage(this, "Export file successfully created.");
@@ -55,30 +55,30 @@ namespace Library.WinForms
         private void GetSettings()
         {
             List<string> allColumnNames = new List<string>();
-            if (this.dataGridView.DataSource != null)
+            if (dataGridView.DataSource != null)
             {
-                foreach (DataColumn currColumn in ((DataTable) this.dataGridView.DataSource).Columns)
+                foreach (DataColumn currColumn in ((DataTable) dataGridView.DataSource).Columns)
                 {
                     allColumnNames.Add(currColumn.ColumnName);
                 }
             }
-            ShowDataGridSettingsForm settingsForm = new ShowDataGridSettingsForm(allColumnNames, this._gridSettings) { Owner = this };
+            ShowDataGridSettingsForm settingsForm = new ShowDataGridSettingsForm(allColumnNames, _gridSettings) { Owner = this };
 
             if (settingsForm.ShowDialog() == DialogResult.OK)
             {
-                this._gridSettings = settingsForm.SettingsInfo;
+                _gridSettings = settingsForm.SettingsInfo;
             }
         }
 
 
         private void imageButtonExport_Click(object sender, EventArgs e)
         {
-            this.ExportData();
+            ExportData();
         }
 
         private void imageButtonSettings_Click(object sender, EventArgs e)
         {
-            this.GetSettings();
+            GetSettings();
         }
     }
 }

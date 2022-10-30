@@ -22,24 +22,24 @@ namespace Library.WinForms
             //  Create arrays that reference the textbox and label controls for
             //    easy manipulation later.
 
-            this._textBoxRefs = new TextBox[]
+            _textBoxRefs = new TextBox[]
                 {
-                    this.textBoxQuadrant1,
-                    this.textBoxQuadrant2,
-                    this.textBoxQuadrant3,
-                    this.textBoxQuadrant4
+                    textBoxQuadrant1,
+                    textBoxQuadrant2,
+                    textBoxQuadrant3,
+                    textBoxQuadrant4
                 };
-            this._labelRefs = new Label[]
+            _labelRefs = new Label[]
                 {
-                    this.labelDot1,
-                    this.labelDot2,
-                    this.labelDot3
+                    labelDot1,
+                    labelDot2,
+                    labelDot3
                 };
         }
 
         public IPAddressInput(IPv4Address NewAddress) : this()
         {
-            this.Address = NewAddress;
+            Address = NewAddress;
         }
 
         private readonly TextBox[] _textBoxRefs = null;
@@ -58,7 +58,7 @@ namespace Library.WinForms
                 for (int idx = 0; idx < quadrants.Length; idx++)
                 {
                     int tempNum = 0;
-                    int.TryParse(this._textBoxRefs[idx].Text, out tempNum);
+                    int.TryParse(_textBoxRefs[idx].Text, out tempNum);
                     quadrants[idx] = tempNum;
                 }
 
@@ -71,7 +71,7 @@ namespace Library.WinForms
                 {
                     for (int idx = 0; idx < value.Quadrants.Length; idx++)
                     {
-                        this._textBoxRefs[idx].Text = value.Quadrants[idx].ToString();
+                        _textBoxRefs[idx].Text = value.Quadrants[idx].ToString();
                     }
                 }
             }
@@ -91,7 +91,7 @@ namespace Library.WinForms
 
             //  Resize and move each textbox.
 
-            foreach (TextBox currTextBox in this._textBoxRefs)
+            foreach (TextBox currTextBox in _textBoxRefs)
             {
                 currTextBox.Size = new Size(textBoxWidth, Height);
                 currTextBox.Location = new Point(currX, 0);
@@ -102,7 +102,7 @@ namespace Library.WinForms
             //  Move the labels containing the periods.
 
             currX = textBoxWidth;
-            foreach (Label currDot in this._labelRefs)
+            foreach (Label currDot in _labelRefs)
             {
                 currDot.Size = new Size(currDot.Width, Height);
                 currDot.Location = new Point(currX, 0);

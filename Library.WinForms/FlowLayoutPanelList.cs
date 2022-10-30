@@ -51,7 +51,7 @@ namespace Library.WinForms
                 //_items.CopyTo(items);
 
                 //return items;
-                return this._items.ToArray();
+                return _items.ToArray();
             }
         }
 

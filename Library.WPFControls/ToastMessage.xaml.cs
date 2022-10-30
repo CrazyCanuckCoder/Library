@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,9 +26,9 @@ namespace Library.WPFControls
         {
             InitializeComponent();
 
-            this.HeaderText  = "Header";
-            this.MessageText = "Message text";
-            this.DataContext = this;
+            HeaderText  = "Header";
+            MessageText = "Message text";
+            DataContext = this;
 
             Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
             {
@@ -35,13 +36,13 @@ namespace Library.WPFControls
                 var transform   = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
                 var corner      = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
 
-                this.Left = corner.X - this.ActualWidth  - 20;
-                this.Top  = corner.Y - this.ActualHeight - 20;
+                Left = corner.X - ActualWidth  - 20;
+                Top  = corner.Y - ActualHeight - 20;
             }));
         }
 
-        public static readonly DependencyProperty HeaderTextProperty  = DependencyProperty.Register("HeaderText",  typeof(string), typeof(ToastMessage));
-        public static readonly DependencyProperty MessageTextProperty = DependencyProperty.Register("MessageText", typeof(string), typeof(ToastMessage));
+        public static readonly DependencyProperty HeaderTextProperty  = DependencyProperty.Register(nameof(HeaderText), typeof(string), typeof(ToastMessage));
+        public static readonly DependencyProperty MessageTextProperty = DependencyProperty.Register(nameof(HeaderText), typeof(string), typeof(ToastMessage));
 
 
         /// <summary>
@@ -52,15 +53,15 @@ namespace Library.WPFControls
         {
             get
             {
-                return (string)this.GetValue(HeaderTextProperty);
+                return (string)GetValue(HeaderTextProperty);
             }
 
             set
             {
                 if (value != null)
                 {
-                    this.SetValue(HeaderTextProperty, value);
-                    this.NotifyPropertyChanged("HeaderText");
+                    SetValue(HeaderTextProperty, value);
+                    NotifyPropertyChanged();
                 }
             }
         }
@@ -73,15 +74,15 @@ namespace Library.WPFControls
         {
             get
             {
-                return (string)this.GetValue(MessageTextProperty);
+                return (string)GetValue(MessageTextProperty);
             }
 
             set
             {
                 if (value != null)
                 {
-                    this.SetValue(MessageTextProperty, value);
-                    this.NotifyPropertyChanged("MessageText");
+                    SetValue(MessageTextProperty, value);
+                    NotifyPropertyChanged();
                 }
             }
         }
@@ -106,10 +107,11 @@ namespace Library.WPFControls
         /// 
         public static void Show(string Header, string Message)
         {
-            ToastMessage newToast = new ToastMessage();
-
-            newToast.HeaderText  = Header;
-            newToast.MessageText = Message;
+            ToastMessage newToast = new ToastMessage
+            {
+                HeaderText = Header,
+                MessageText = Message
+            };
 
             newToast.Show();
         }
@@ -123,20 +125,14 @@ namespace Library.WPFControls
         /// The name of the property being changed.
         /// </param>
         /// 
-        private void NotifyPropertyChanged(string PropertyName)
+        private void NotifyPropertyChanged([CallerMemberName] string PropertyName = null)
         {
-            if (PropertyChanged != null)
-            {
-                if (!PropertyName.IsEmpty())
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-                }
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 
         private void Timeline_OnCompleted(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

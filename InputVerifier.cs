@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Library
@@ -137,10 +136,10 @@ namespace Library
         /// 
         public bool HasValidInput(IEnumerable ControlsToVerify)
         {
-            this.InputErrors = new List<InputError>();
-            this._radioButtons = new Dictionary<Control, List<RadioButton>>();
+            InputErrors = new List<InputError>();
+            _radioButtons = new Dictionary<Control, List<RadioButton>>();
 
-            return this.ValidateUserEntries(ControlsToVerify);
+            return ValidateUserEntries(ControlsToVerify);
         }
 
         /// <summary>
@@ -171,9 +170,9 @@ namespace Library
                 {
                     if (ControlType.IsSubclassOf(typeof (Control)))
                     {
-                        if (!this._verificationDelegates.ContainsKey(ControlType))
+                        if (!_verificationDelegates.ContainsKey(ControlType))
                         {
-                            this._verificationDelegates.Add(ControlType, MethodToUse);
+                            _verificationDelegates.Add(ControlType, MethodToUse);
                             wasRegistered = true;
                         }
                     }
@@ -202,9 +201,9 @@ namespace Library
 
             if (ControlType != null)
             {
-                if (this._verificationDelegates.ContainsKey(ControlType))
+                if (_verificationDelegates.ContainsKey(ControlType))
                 {
-                    wasUnregistered = this._verificationDelegates.Remove(ControlType);
+                    wasUnregistered = _verificationDelegates.Remove(ControlType);
                 }
             }
 
@@ -235,8 +234,7 @@ namespace Library
 
             if (ControlsToValidate != null)
             {
-                List<Control> controlsToVerify = null;
-
+                List<Control> controlsToVerify;
                 if (ControlsToValidate is List<Control>)
                 {
                     controlsToVerify = ControlsToValidate as List<Control>;
@@ -257,29 +255,29 @@ namespace Library
                         //    The DomainUpDown control acts like a container with the text
                         //    entry area actually a textbox.
 
-                        if (currControl.Controls.Count > 0 && this.IsActualContainer(currControl))
+                        if (currControl.Controls.Count > 0 && IsActualContainer(currControl))
                         {
-                            this.ValidateUserEntries(currControl.Controls);
+                            ValidateUserEntries(currControl.Controls);
                         }
                         else
                         {
-                            this.VerifyControl(currControl);
+                            VerifyControl(currControl);
                         }
                     }
 
-                    this.CheckRadioButtonControls();
+                    CheckRadioButtonControls();
                 }
                 else
                 {
-                    this.InputErrors.Add(new InputError(new Control(), "No controls were found to verify."));
+                    InputErrors.Add(new InputError(new Control(), "No controls were found to verify."));
                 }
             }
             else
             {
-                this.InputErrors.Add(new InputError(new Control(), "Attempted to verify non existent collection of controls."));
+                InputErrors.Add(new InputError(new Control(), "Attempted to verify non existent collection of controls."));
             }
 
-            return (this.InputErrors.Count == 0);
+            return (InputErrors.Count == 0);
         }
 
         /// <summary>
@@ -303,7 +301,7 @@ namespace Library
             //  Ensure any container controls are checked by a registered verification method
             //    if they've had a verification method registered for them.
 
-            if (this._verificationDelegates.ContainsKey(ContainerControl.GetType()))
+            if (_verificationDelegates.ContainsKey(ContainerControl.GetType()))
             {
                 isContainer = false;
             } 
@@ -331,44 +329,44 @@ namespace Library
         /// 
         private void VerifyControl(Control ControlToCheck)
         {
-            if (this._verificationDelegates.ContainsKey(ControlToCheck.GetType()))
+            if (_verificationDelegates.ContainsKey(ControlToCheck.GetType()))
             {
-                string errMsg = this._verificationDelegates[ControlToCheck.GetType()](ControlToCheck);
+                string errMsg = _verificationDelegates[ControlToCheck.GetType()](ControlToCheck);
                 if (!string.IsNullOrEmpty(errMsg))
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, errMsg));
+                    InputErrors.Add(new InputError(ControlToCheck, errMsg));
                 }
             }
             else if (ControlToCheck is RadioButton)
             {
-                this.AddRadioButtonToDictionary(ControlToCheck as RadioButton);
+                AddRadioButtonToDictionary(ControlToCheck as RadioButton);
             }
             else if (ControlToCheck is TextBox)
             {
                 if (string.IsNullOrEmpty((ControlToCheck as TextBox).Text))
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
+                    InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
                 }
             }
             else if (ControlToCheck is CheckedListBox)
             {
                 if ((ControlToCheck as CheckedListBox).CheckedItems.Count == 0)
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "At least one item must be checked."));
+                    InputErrors.Add(new InputError(ControlToCheck, "At least one item must be checked."));
                 }
             }
             else if (ControlToCheck is ComboBox)
             {
                 if ((ControlToCheck as ComboBox).SelectedItem == null)
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
+                    InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
                 }
             }
             else if (ControlToCheck is DateTimePicker)
             {
                 if ((ControlToCheck as DateTimePicker).Value == (ControlToCheck as DateTimePicker).MinDate)
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, 
+                    InputErrors.Add(new InputError(ControlToCheck, 
                         string.Format("A date greater than {0} must be selected.", (ControlToCheck as DateTimePicker).MinDate)));
                 }
             }
@@ -376,21 +374,21 @@ namespace Library
             {
                 if (string.IsNullOrEmpty((ControlToCheck as DomainUpDown).Text))
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
+                    InputErrors.Add(new InputError(ControlToCheck, "An option must be selected."));
                 }
             }
             else if (ControlToCheck is ListBox)
             {
                 if ((ControlToCheck as ListBox).SelectedItem == null)
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "An item must be selected."));
+                    InputErrors.Add(new InputError(ControlToCheck, "An item must be selected."));
                 }
             }
             else if (ControlToCheck is MaskedTextBox)
             {
                 if (!(ControlToCheck as MaskedTextBox).MaskCompleted)
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "Field must be completed."));
+                    InputErrors.Add(new InputError(ControlToCheck, "Field must be completed."));
                 }
             }
             else if (ControlToCheck is NumericUpDown)
@@ -398,14 +396,14 @@ namespace Library
                 NumericUpDown numUpDown = (ControlToCheck as NumericUpDown);
                 if (numUpDown.Minimum == 0M && numUpDown.Value == numUpDown.Minimum) 
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "A value must be entered."));
+                    InputErrors.Add(new InputError(ControlToCheck, "A value must be entered."));
                 }
             }
             else if (ControlToCheck is RichTextBox)
             {
                 if (string.IsNullOrEmpty((ControlToCheck as RichTextBox).Text))
                 {
-                    this.InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
+                    InputErrors.Add(new InputError(ControlToCheck, "Text is required."));
                 }
             }
         }
@@ -421,16 +419,15 @@ namespace Library
         /// 
         private void AddRadioButtonToDictionary(RadioButton NewRadioButton)
         {
-            List<RadioButton> listRef = null;
-
-            if (this._radioButtons.ContainsKey(NewRadioButton.Parent))
+            List<RadioButton> listRef;
+            if (_radioButtons.ContainsKey(NewRadioButton.Parent))
             {
-                listRef = this._radioButtons[NewRadioButton.Parent];
+                listRef = _radioButtons[NewRadioButton.Parent];
             }
             else
             {
                 listRef = new List<RadioButton>();
-                this._radioButtons.Add(NewRadioButton.Parent, listRef);
+                _radioButtons.Add(NewRadioButton.Parent, listRef);
             }
 
             listRef.Add(NewRadioButton);
@@ -443,11 +440,11 @@ namespace Library
         /// 
         private void CheckRadioButtonControls()
         {
-            foreach (Control parentControl in this._radioButtons.Keys)
+            foreach (Control parentControl in _radioButtons.Keys)
             {
-                if (!this._radioButtons[parentControl].Any(currButton => currButton.Checked))
+                if (!_radioButtons[parentControl].Any(currButton => currButton.Checked))
                 {
-                    this.InputErrors.Add(new InputError(parentControl, "At least one option must be selected."));
+                    InputErrors.Add(new InputError(parentControl, "At least one option must be selected."));
                 }
             }
         }

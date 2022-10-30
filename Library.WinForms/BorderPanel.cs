@@ -11,8 +11,8 @@ namespace Library.WinForms
     {
         public BorderPanel() : base()
         {
-            this.InitializeComponent();
-            this.SetStyle(ControlStyles.UserPaint, true);
+            InitializeComponent();
+            SetStyle(ControlStyles.UserPaint, true);
         }
 
         private Color _borderColour = SystemColors.ControlDark;
@@ -26,12 +26,12 @@ namespace Library.WinForms
         {
             get
             {
-                return this._borderColour;
+                return _borderColour;
             }
 
             set
             {
-                this._borderColour = value;
+                _borderColour = value;
             }
         }
 
@@ -44,14 +44,14 @@ namespace Library.WinForms
 
             get
             {
-                return this._borderWidth;
+                return _borderWidth;
             }
 
             set
             {
                 if (value >= 0)
                 {
-                    this._borderWidth = value;
+                    _borderWidth = value;
                 }
             }
         }
@@ -65,27 +65,27 @@ namespace Library.WinForms
         {
             base.OnPaint(e);
 
-            Rectangle borderRect = this.ClientRectangle;
+            Rectangle borderRect = ClientRectangle;
             borderRect.Width--;
             borderRect.Height--;
 
-            e.Graphics.DrawRectangle(new Pen(new SolidBrush(this._borderColour), this._borderWidth), borderRect);
+            e.Graphics.DrawRectangle(new Pen(new SolidBrush(_borderColour), _borderWidth), borderRect);
         }
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // BorderPanel
             // 
-            this.Resize += new System.EventHandler(this.BorderPanel_Resize);
-            this.ResumeLayout(false);
+            Resize += new System.EventHandler(BorderPanel_Resize);
+            ResumeLayout(false);
 
         }
 
         private void BorderPanel_Resize(object sender, EventArgs e)
         {
-            this.Invalidate();
+            Invalidate();
         }
     }
 }

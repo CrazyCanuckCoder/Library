@@ -15,8 +15,8 @@ namespace Library.WinForms
         public TwoColumnComboBox()
         {
             InitializeComponent();
-            this.DrawMode = DrawMode.OwnerDrawFixed;
-            this.DrawItem += TwoColumnComboBox_DrawItem;
+            DrawMode = DrawMode.OwnerDrawFixed;
+            DrawItem += TwoColumnComboBox_DrawItem;
         }
 
         private double _firstColumnWidthRatio  = 0.5;
@@ -27,25 +27,25 @@ namespace Library.WinForms
         {
             get
             {
-                return this._firstColumnWidthRatio;
+                return _firstColumnWidthRatio;
             }
 
             set
             {
                 if (value < 0d)
                 {
-                    this._firstColumnWidthRatio = 0d;
+                    _firstColumnWidthRatio = 0d;
                 }
                 else if (value > 1.0d)
                 {
-                    this._firstColumnWidthRatio = 1.0d;
+                    _firstColumnWidthRatio = 1.0d;
                 }
                 else
                 {
-                    this._firstColumnWidthRatio = value;
+                    _firstColumnWidthRatio = value;
                 }
 
-                this._secondColumnWidthRatio = 1.0d - this._firstColumnWidthRatio;
+                _secondColumnWidthRatio = 1.0d - _firstColumnWidthRatio;
             }
         }
 
@@ -54,25 +54,25 @@ namespace Library.WinForms
         {
             get
             {
-                return this._secondColumnWidthRatio;
+                return _secondColumnWidthRatio;
             }
 
             set
             {
                 if (value < 0d)
                 {
-                    this._secondColumnWidthRatio = 0d;
+                    _secondColumnWidthRatio = 0d;
                 }
                 else if (value > 1.0d)
                 {
-                    this._secondColumnWidthRatio = 1.0d;
+                    _secondColumnWidthRatio = 1.0d;
                 }
                 else
                 {
-                    this._secondColumnWidthRatio = value;
+                    _secondColumnWidthRatio = value;
                 }
 
-                this._firstColumnWidthRatio = 1.0d - this._secondColumnWidthRatio;
+                _firstColumnWidthRatio = 1.0d - _secondColumnWidthRatio;
             }
         }
 
@@ -87,27 +87,27 @@ namespace Library.WinForms
             bool noIssue = false;
             string message = "";
 
-            if (this.ValueMember.IsEmpty())
+            if (string.IsNullOrEmpty(ValueMember))
             {
                 message = "ValueMember property cannot be empty.";
             }
-            else if (this.DisplayMember.IsEmpty())
+            else if (string.IsNullOrEmpty(DisplayMember))
             {
                 message = "DisplayMember property cannot be empty.";
             }
-            else if (this.DataSource == null)
+            else if (DataSource == null)
             {
                 message = "DataSource property cannot be null.";
             }
-            else if (!(this.DataSource is DataTable))
+            else if (!(DataSource is DataTable))
             {
                 message = "DataSource must be a DataTable.";
             }
-            else if (!(this.DataSource as DataTable).Columns.Contains(this.ValueMember))
+            else if (!(DataSource as DataTable).Columns.Contains(ValueMember))
             {
                 message = "DataSource does not contain the ValueMember column.";
             }
-            else if (!(this.DataSource as DataTable).Columns.Contains(this.DisplayMember))
+            else if (!(DataSource as DataTable).Columns.Contains(DisplayMember))
             {
                 message = "DataSource does not contain the DisplayMember column.";
             }
@@ -121,7 +121,7 @@ namespace Library.WinForms
 
         private void TwoColumnComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            this.VerifyEssentialProperties();
+            VerifyEssentialProperties();
 
             // Draw the default background
             e.DrawBackground();
@@ -130,15 +130,15 @@ namespace Library.WinForms
             {
                 // The ComboBox is bound to a DataTable,
                 // so the items are DataRowView objects.
-                DataRowView drv = (DataRowView) this.Items[e.Index];
+                DataRowView drv = (DataRowView) Items[e.Index];
 
                 // Retrieve the value of each column.
-                string valueColumn   = drv[this.ValueMember].ToString();
-                string displayColumn = drv[this.DisplayMember].ToString();
+                string valueColumn   = drv[ValueMember].ToString();
+                string displayColumn = drv[DisplayMember].ToString();
 
                 // Get the bounds for the first column
                 Rectangle r1 = e.Bounds;
-                r1.Width     = (int) (r1.Width * this._firstColumnWidthRatio);
+                r1.Width     = (int) (r1.Width * _firstColumnWidthRatio);
 
                 // Draw the text on the first column
                 using (SolidBrush sb = new SolidBrush(e.ForeColor))
@@ -154,8 +154,8 @@ namespace Library.WinForms
 
                 // Get the bounds for the second column
                 Rectangle r2 = e.Bounds;
-                r2.X     = e.Bounds.Width - (int) (e.Bounds.Width * this._secondColumnWidthRatio);
-                r2.Width = (int) (r2.Width * this._secondColumnWidthRatio);
+                r2.X     = e.Bounds.Width - (int) (e.Bounds.Width * _secondColumnWidthRatio);
+                r2.Width = (int) (r2.Width * _secondColumnWidthRatio);
 
                 // Draw the text on the second column
                 using (SolidBrush sb = new SolidBrush(e.ForeColor))

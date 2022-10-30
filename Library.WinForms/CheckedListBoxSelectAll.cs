@@ -20,12 +20,12 @@ namespace Library.WinForms
         {
             get
             {
-                return this.labelTitle.Text;
+                return labelTitle.Text;
             }
 
             set
             {
-                this.labelTitle.Text = value;
+                labelTitle.Text = value;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Library.WinForms
             {
                 List<T> checkedItems = new List<T>();
 
-                foreach (object currObj in this.checkedListBox.CheckedItems)
+                foreach (object currObj in checkedListBox.CheckedItems)
                 {
                     checkedItems.Add((T) currObj);
                 }
@@ -47,23 +47,23 @@ namespace Library.WinForms
 
         public void SetupItems(IEnumerable<T> AllItems, IEnumerable<T> InitialCheckedItems)
         {
-            this.checkedListBox.DataSource = AllItems;
+            checkedListBox.DataSource = AllItems;
             List<T> checkedItems = InitialCheckedItems == null ? null : InitialCheckedItems.ToList();
 
             if (checkedItems != null && checkedItems.Count() > 0)
             {
-                for (int idx = 0; idx < this.checkedListBox.Items.Count; idx++)
+                for (int idx = 0; idx < checkedListBox.Items.Count; idx++)
                 {
-                    this.checkedListBox.SetItemChecked(idx, checkedItems.Contains((T) this.checkedListBox.Items[idx]));
+                    checkedListBox.SetItemChecked(idx, checkedItems.Contains((T) checkedListBox.Items[idx]));
                 }
             }
         }
 
         private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
         {
-            for (int idx = 0; idx < this.checkedListBox.Items.Count; idx++)
+            for (int idx = 0; idx < checkedListBox.Items.Count; idx++)
             {
-                this.checkedListBox.SetItemChecked(idx, this.checkBoxSelectAll.Checked);
+                checkedListBox.SetItemChecked(idx, checkBoxSelectAll.Checked);
             }
         }
     }

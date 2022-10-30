@@ -67,9 +67,9 @@ namespace Library.WinForms
         /// 
         private void OnMillerItemMoved(Control SourceItem, Control DestinationItem)
         {
-            if (this.MillerItemMoved != null)
+            if (MillerItemMoved != null)
             {
-                this.MillerItemMoved(this, new MillerItemMovedEventArgs(SourceItem, DestinationItem));
+                MillerItemMoved(this, new MillerItemMovedEventArgs(SourceItem, DestinationItem));
             }
         }
 
@@ -91,12 +91,12 @@ namespace Library.WinForms
         /// 
         public bool AddItem(IMillerItem NewItem)
         {
-            bool itemAdded = this.AddMillerItem(NewItem);
+            bool itemAdded = AddMillerItem(NewItem);
 
             if (itemAdded)
             {
-                this.OnMillerColumnAdded(NewItem);
-                this.flowLayoutPanelItems.ScrollControlIntoView(NewItem as Control);
+                OnMillerColumnAdded(NewItem);
+                flowLayoutPanelItems.ScrollControlIntoView(NewItem as Control);
             }
 
             return itemAdded;
@@ -122,7 +122,7 @@ namespace Library.WinForms
             {
                 foreach (IMillerItem currItem in ItemList)
                 {
-                    if (!this.AddMillerItem(currItem))
+                    if (!AddMillerItem(currItem))
                     {
                         listAdded = false;
                         break;
@@ -145,18 +145,18 @@ namespace Library.WinForms
         {
             bool itemsCleared = false;
 
-            if (this.Items != null && this.Items.Count > 0)
+            if (Items != null && Items.Count > 0)
             {
                 itemsCleared = true;
-                for (int listIdx = this.Items.Count - 1; listIdx >= 0; listIdx--)
+                for (int listIdx = Items.Count - 1; listIdx >= 0; listIdx--)
                 {
-                    if (!this.RemoveMillerItem(this.Items[listIdx]))
+                    if (!RemoveMillerItem(Items[listIdx]))
                     {
                         itemsCleared = false;
                         break;
                     }
                 }
-                this.Items = null;
+                Items = null;
             }
 
             return itemsCleared;
@@ -180,9 +180,9 @@ namespace Library.WinForms
 
             if (ItemToRemove != null)
             {
-                itemRemoved = this.RemoveMillerItem(ItemToRemove);
-                this.OnMillerColumnDeleted(ItemToRemove);
-                this.SelectedItem = null;
+                itemRemoved = RemoveMillerItem(ItemToRemove);
+                OnMillerColumnDeleted(ItemToRemove);
+                SelectedItem = null;
             }
 
             return itemRemoved;
@@ -197,9 +197,9 @@ namespace Library.WinForms
         /// 
         private void OnMillerColumnAdded(IMillerItem AddedItem)
         {
-            if (this.MillerItemAdded != null)
+            if (MillerItemAdded != null)
             {
-                this.MillerItemAdded(this, new MillerItemEventArgs(AddedItem));
+                MillerItemAdded(this, new MillerItemEventArgs(AddedItem));
             }
         }
 
@@ -209,9 +209,9 @@ namespace Library.WinForms
         /// 
         private void OnMillerColumnDeleted(IMillerItem DeletedItem)
         {
-            if (this.MillerItemDeleted != null)
+            if (MillerItemDeleted != null)
             {
-                this.MillerItemDeleted(this, new MillerItemEventArgs(DeletedItem));
+                MillerItemDeleted(this, new MillerItemEventArgs(DeletedItem));
             }
         }
 
@@ -235,20 +235,20 @@ namespace Library.WinForms
             {
                 ItemToAdd.MillerItemSelected += MillerColumnItemSelected;
 
-                if (this.ItemsCanBeMoved)
+                if (ItemsCanBeMoved)
                 {
                     (ItemToAdd as IDraggable).DragObject.MouseDown += DragObject_MouseDown;
                     (ItemToAdd as IDraggable).DragObject.MouseUp   += DragObject_MouseUp;
                     (ItemToAdd as IDraggable).DragObject.MouseMove += DragObject_MouseMove;
                 }
 
-                if (this.Items == null)
+                if (Items == null)
                 {
-                    this.Items = new List<IMillerItem>();
+                    Items = new List<IMillerItem>();
                 }
 
-                this.Items.Add(ItemToAdd);
-                this.flowLayoutPanelItems.Controls.Add(ItemToAdd as Control);
+                Items.Add(ItemToAdd);
+                flowLayoutPanelItems.Controls.Add(ItemToAdd as Control);
 
                 itemAdded = true;
             }
@@ -276,21 +276,21 @@ namespace Library.WinForms
             {
                 ItemToDelete.MillerItemSelected -= MillerColumnItemSelected;
 
-                if (this.ItemsCanBeMoved)
+                if (ItemsCanBeMoved)
                 {
                     (ItemToDelete as IDraggable).DragObject.MouseDown -= DragObject_MouseDown;
                     (ItemToDelete as IDraggable).DragObject.MouseUp   -= DragObject_MouseUp;
                     (ItemToDelete as IDraggable).DragObject.MouseMove -= DragObject_MouseMove;
                 }
 
-                if (this.Items != null)
+                if (Items != null)
                 {
-                    this.Items.Remove(ItemToDelete);
+                    Items.Remove(ItemToDelete);
                 }
 
-                if (this.flowLayoutPanelItems.Controls.Contains(ItemToDelete as Control))
+                if (flowLayoutPanelItems.Controls.Contains(ItemToDelete as Control))
                 {
-                    this.flowLayoutPanelItems.Controls.Remove(ItemToDelete as Control);
+                    flowLayoutPanelItems.Controls.Remove(ItemToDelete as Control);
                 }
 
                 itemRemoved = true;
@@ -312,13 +312,13 @@ namespace Library.WinForms
         {
             if (ParentItem != null)
             {
-                if (this.ChildControl != null)
+                if (ChildControl != null)
                 {
-                    if (this.GetChildItems != null)
+                    if (GetChildItems != null)
                     {
                         //  Perform the retrieval of the child items in a different thread then the UI thread.
 
-                        this.backgroundWorker.RunWorkerAsync(ParentItem);
+                        backgroundWorker.RunWorkerAsync(ParentItem);
                     }
                 }
             }
@@ -336,11 +336,11 @@ namespace Library.WinForms
         {
             if (ChildItems != null)
             {
-                if (this.ChildControl != null)
+                if (ChildControl != null)
                 {
-                    this.ChildControl.ClearItems();
-                    this.ChildControl.AddItemRange(ChildItems);
-                    this.ChildControl.ParentID = this.SelectedItem.ID;
+                    ChildControl.ClearItems();
+                    ChildControl.AddItemRange(ChildItems);
+                    ChildControl.ParentID = SelectedItem.ID;
                 }
             }
         }
@@ -350,14 +350,14 @@ namespace Library.WinForms
 
         private void MillerColumnItemSelected(object sender, MillerItemEventArgs e)
         {
-            if (this.SelectedItem != e.MillerItem)
+            if (SelectedItem != e.MillerItem)
             {
-                if (this.SelectedItem != null)
+                if (SelectedItem != null)
                 {
-                    this.SelectedItem.IsSelected = false;
+                    SelectedItem.IsSelected = false;
                 }
-                this.SelectedItem = e.MillerItem;
-                this.ShowChildItems(e.MillerItem);
+                SelectedItem = e.MillerItem;
+                ShowChildItems(e.MillerItem);
             }
         }
 
@@ -366,9 +366,9 @@ namespace Library.WinForms
             List<IMillerItem> childItems = null;
             IMillerItem parentItem = e.Argument as IMillerItem;
 
-            if (parentItem != null && this.GetChildItems != null)
+            if (parentItem != null && GetChildItems != null)
             {
-                childItems = this.GetChildItems(parentItem.ID);
+                childItems = GetChildItems(parentItem.ID);
             }
 
             e.Result = childItems;
@@ -378,7 +378,7 @@ namespace Library.WinForms
         {
             if (e.Error == null)
             {
-                this.SetChildControl(e.Result as List<IMillerItem>);
+                SetChildControl(e.Result as List<IMillerItem>);
             }
         }
 
@@ -389,8 +389,8 @@ namespace Library.WinForms
                 IDraggable millerItem = (sender as Control).FindParentType<IDraggable>();
                 if (millerItem != null)
                 {
-                    this._isDragging = true;
-                    this.Cursor = Cursors.SizeNS;
+                    _isDragging = true;
+                    Cursor = Cursors.SizeNS;
                     millerItem.Highlight();
                 }
             }
@@ -398,13 +398,13 @@ namespace Library.WinForms
 
         private void DragObject_MouseUp(object sender, MouseEventArgs e)
         {
-            if (this._isDragging)
+            if (_isDragging)
             {
                 IDraggable millerItem = (sender as Control).FindParentType<IDraggable>();
                 if (millerItem != null)
                 {
-                    this._isDragging = false;
-                    this.Cursor = Cursors.Default;
+                    _isDragging = false;
+                    Cursor = Cursors.Default;
                     millerItem.UnHighlight();
                 }
             }
@@ -412,19 +412,19 @@ namespace Library.WinForms
 
         private void DragObject_MouseMove(object sender, MouseEventArgs e)
         {
-            if (this._isDragging)
+            if (_isDragging)
             {
-                Point mousePosition = this.flowLayoutPanelItems.PointToClient((sender as Control).PointToScreen(new Point(e.X, e.Y)));
+                Point mousePosition = flowLayoutPanelItems.PointToClient((sender as Control).PointToScreen(new Point(e.X, e.Y)));
 
-                Control destination = this.flowLayoutPanelItems.GetChildAtPoint(mousePosition);
+                Control destination = flowLayoutPanelItems.GetChildAtPoint(mousePosition);
                 Control source      = (Control)(sender as Control).FindParentType<IDraggable>();
 
                 //  Ensure the mouse is hovering over a miller item.
 
                 if (destination != null)
                 {
-                    int idxDestination = this.flowLayoutPanelItems.Controls.IndexOf(destination);
-                    int idxSource      = this.flowLayoutPanelItems.Controls.IndexOf(source);
+                    int idxDestination = flowLayoutPanelItems.Controls.IndexOf(destination);
+                    int idxSource      = flowLayoutPanelItems.Controls.IndexOf(source);
 
                     if (idxDestination != -1)
                     {
@@ -439,15 +439,15 @@ namespace Library.WinForms
                             idxSource      = idxDestination;
                             idxDestination = idxTemp;
 
-                            this.OnMillerItemMoved(source, destination);
+                            OnMillerItemMoved(source, destination);
 
                             //  Draw the new locations of the affected items.
 
-                            this.flowLayoutPanelItems.SuspendLayout();
-                            this.flowLayoutPanelItems.Controls.SetChildIndex(source, idxSource);
-                            this.flowLayoutPanelItems.Controls.SetChildIndex(destination, idxDestination);
-                            this.flowLayoutPanelItems.Invalidate(true);
-                            this.flowLayoutPanelItems.ResumeLayout();
+                            flowLayoutPanelItems.SuspendLayout();
+                            flowLayoutPanelItems.Controls.SetChildIndex(source, idxSource);
+                            flowLayoutPanelItems.Controls.SetChildIndex(destination, idxDestination);
+                            flowLayoutPanelItems.Invalidate(true);
+                            flowLayoutPanelItems.ResumeLayout();
                         }
                     }
                 }
@@ -456,29 +456,29 @@ namespace Library.WinForms
                     //  Check if the user has moved the mouse outside of the flow layout panel. If they have,
                     //    scroll the contents of the panel accordingly.
 
-                    Form formRef     = this.flowLayoutPanelItems.FindForm();
-                    int panelTopY    = formRef.PointToClient(this.flowLayoutPanelItems.Parent.PointToScreen(this.flowLayoutPanelItems.Location)).Y;
-                    int panelBottomY = this.flowLayoutPanelItems.Height + panelTopY;
+                    Form formRef     = flowLayoutPanelItems.FindForm();
+                    int panelTopY    = formRef.PointToClient(flowLayoutPanelItems.Parent.PointToScreen(flowLayoutPanelItems.Location)).Y;
+                    int panelBottomY = flowLayoutPanelItems.Height + panelTopY;
                     int mouseY       = formRef.PointToClient(MousePosition).Y;
 
                     while (mouseY >= panelBottomY)
                     {
-                        if (this.flowLayoutPanelItems.VerticalScroll.Value + REORDER_SCROLL_AMT <= this.flowLayoutPanelItems.VerticalScroll.Maximum)
+                        if (flowLayoutPanelItems.VerticalScroll.Value + REORDER_SCROLL_AMT <= flowLayoutPanelItems.VerticalScroll.Maximum)
                         {
-                            this.flowLayoutPanelItems.VerticalScroll.Value = this.flowLayoutPanelItems.VerticalScroll.Value + REORDER_SCROLL_AMT;
+                            flowLayoutPanelItems.VerticalScroll.Value = flowLayoutPanelItems.VerticalScroll.Value + REORDER_SCROLL_AMT;
                         }
                         mouseY = formRef.PointToClient(MousePosition).Y;
-                        this.flowLayoutPanelItems.Refresh();
+                        flowLayoutPanelItems.Refresh();
                     }
 
                     while (mouseY <= panelTopY)
                     {
-                        if (this.flowLayoutPanelItems.VerticalScroll.Value - REORDER_SCROLL_AMT >= this.flowLayoutPanelItems.VerticalScroll.Minimum)
+                        if (flowLayoutPanelItems.VerticalScroll.Value - REORDER_SCROLL_AMT >= flowLayoutPanelItems.VerticalScroll.Minimum)
                         {
-                            this.flowLayoutPanelItems.VerticalScroll.Value = this.flowLayoutPanelItems.VerticalScroll.Value - REORDER_SCROLL_AMT;
+                            flowLayoutPanelItems.VerticalScroll.Value = flowLayoutPanelItems.VerticalScroll.Value - REORDER_SCROLL_AMT;
                         }
                         mouseY = formRef.PointToClient(MousePosition).Y;
-                        this.flowLayoutPanelItems.Refresh();
+                        flowLayoutPanelItems.Refresh();
                     }
                 }
             }

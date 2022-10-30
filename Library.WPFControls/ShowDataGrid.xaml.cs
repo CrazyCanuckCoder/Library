@@ -26,9 +26,9 @@ namespace Library.WPFControls
 
         public ShowDataGrid(DataTable SourceData, string DialogTitle) : this()
         {
-            this.Title = DialogTitle;
-            this._sourceTable = SourceData;
-            this.DataGridMain.ItemsSource = SourceData.DefaultView;
+            Title = DialogTitle;
+            _sourceTable = SourceData;
+            DataGridMain.ItemsSource = SourceData.DefaultView;
         }
 
         private DataGridSettings _gridSettings = new DataGridSettings(true, true, new List<string>());
@@ -36,17 +36,17 @@ namespace Library.WPFControls
 
         private void ExportData()
         {
-            if (!this.FilePickerCSV.ChosenFile.IsEmpty())
+            if (!string.IsNullOrEmpty(FilePickerCSV.ChosenFile))
             {
                 try
                 {
-                    if (this._gridSettings.ExportAllColumns)
+                    if (_gridSettings.ExportAllColumns)
                     {
-                        Export.DataTableToCSV(this.FilePickerCSV.ChosenFile, this._sourceTable, this._gridSettings.IncludeColumnHeaders);
+                        Export.DataTableToCSV(FilePickerCSV.ChosenFile, _sourceTable, _gridSettings.IncludeColumnHeaders);
                     }
                     else
                     {
-                        Export.DataTableToCSV(this.FilePickerCSV.ChosenFile, this._sourceTable, this._gridSettings.IncludeColumnHeaders, this._gridSettings.ColumnsToExport);
+                        Export.DataTableToCSV(FilePickerCSV.ChosenFile, _sourceTable, _gridSettings.IncludeColumnHeaders, _gridSettings.ColumnsToExport);
                     }
 
                     AppHelper.ShowMessage(this, "Export file successfully created.");
@@ -65,29 +65,29 @@ namespace Library.WPFControls
         private void GetSettings()
         {
             List<string> allColumnNames = new List<string>();
-            if (this._sourceTable != null)
+            if (_sourceTable != null)
             {
-                foreach (DataColumn currColumn in this._sourceTable.Columns)
+                foreach (DataColumn currColumn in _sourceTable.Columns)
                 {
                     allColumnNames.Add(currColumn.ColumnName);
                 }
             }
-            ShowDataGridSettings settingsForm = new ShowDataGridSettings(allColumnNames, this._gridSettings) { Owner = this };
+            ShowDataGridSettings settingsForm = new ShowDataGridSettings(allColumnNames, _gridSettings) { Owner = this };
 
             if ((bool)settingsForm.ShowDialog())
             {
-                this._gridSettings = settingsForm.SettingsInfo;
+                _gridSettings = settingsForm.SettingsInfo;
             }
         }
 
         private void ButtonExportCSV_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.ExportData();
+            ExportData();
         }
 
         private void ButtonSettings_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.GetSettings();
+            GetSettings();
         }
     }
 }

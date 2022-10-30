@@ -64,7 +64,7 @@ namespace Library
         /// 
         public int Compare(object x, object y)
         {
-            return this.Compare((ListViewItem) x, (ListViewItem) y);
+            return Compare((ListViewItem) x, (ListViewItem) y);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Library
         /// 
         public int Compare(ListViewItem FirstItem, ListViewItem SecondItem)
         {
-            int compareResult = 0;
+            int compareResult;
 
             // Cast the objects to be compared to ListViewItem objects
 
@@ -97,18 +97,18 @@ namespace Library
             {
                 // Compare the two items
 
-                compareResult = this._objectCompare.Compare(FirstItem .SubItems[this.SortColumn].Text,
-                                                            SecondItem.SubItems[this.SortColumn].Text);
+                compareResult = _objectCompare.Compare(FirstItem .SubItems[SortColumn].Text,
+                                                       SecondItem.SubItems[SortColumn].Text);
 
                 // Calculate correct return value based on specified sort order
 
-                if (this.Order == SortOrder.Descending)
+                if (Order == SortOrder.Descending)
                 {
                     // Descending sort is selected, return negative result of compare operation
 
-                    compareResult = (-compareResult);
+                    compareResult = -compareResult;
                 }
-                else if (this.Order == SortOrder.None)
+                else if (Order == SortOrder.None)
                 {
                     // Return '0' to indicate they are equal
 

@@ -10,9 +10,9 @@ namespace Library
 
         public DataGridSettings(bool IncludeHeaders, bool SaveAllColumns, List<string> ColumnsToSave)
         {
-            this.IncludeColumnHeaders = IncludeHeaders;
-            this.ExportAllColumns     = SaveAllColumns;
-            this.ColumnsToExport      = ColumnsToSave;
+            IncludeColumnHeaders = IncludeHeaders;
+            ExportAllColumns     = SaveAllColumns;
+            ColumnsToExport      = ColumnsToSave;
         }
     }
 }

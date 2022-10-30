@@ -54,7 +54,7 @@ namespace Library.WinForms
         [Description("Returns true if the file has been selected.")]
         public bool HasValue
         {
-            get { return !textBoxFilePath.Text.IsEmpty(); }
+            get { return !string.IsNullOrEmpty(textBoxFilePath.Text); }
         }
 
         [Description("The file and path selected by the user.")]

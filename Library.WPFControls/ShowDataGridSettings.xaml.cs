@@ -21,14 +21,14 @@ namespace Library.WPFControls
         private ShowDataGridSettings()
         {
             InitializeComponent();
-            this.RadioButtonExportAll.Checked  += this.RadioButtonExportAll_Checked;
-            this.RadioButtonExportSome.Checked += this.RadioButtonExportSome_Checked;
+            RadioButtonExportAll.Checked  += RadioButtonExportAll_Checked;
+            RadioButtonExportSome.Checked += RadioButtonExportSome_Checked;
         }
 
         public ShowDataGridSettings(List<string> AllColumns, DataGridSettings CurrentSettings) : this()
         {
-            this.AddColumnNamesToListBox(AllColumns);
-            this.SettingsInfo = CurrentSettings;
+            AddColumnNamesToListBox(AllColumns);
+            SettingsInfo = CurrentSettings;
         }
 
         private DataGridSettings _settingsInfo = new DataGridSettings(true, true, new List<string>());
@@ -41,18 +41,18 @@ namespace Library.WPFControls
         {
             get
             {
-                return this._settingsInfo;
+                return _settingsInfo;
             }
 
             private set
             {
-                this._settingsInfo = value;
+                _settingsInfo = value;
 
-                this.CheckBoxIncludeHeaders.IsChecked = this._settingsInfo.IncludeColumnHeaders;
-                this.RadioButtonExportAll  .IsChecked = this._settingsInfo.ExportAllColumns;
-                this.RadioButtonExportSome .IsChecked = !this._settingsInfo.ExportAllColumns;
+                CheckBoxIncludeHeaders.IsChecked = _settingsInfo.IncludeColumnHeaders;
+                RadioButtonExportAll  .IsChecked = _settingsInfo.ExportAllColumns;
+                RadioButtonExportSome .IsChecked = !_settingsInfo.ExportAllColumns;
 
-                this.SetCheckedColumns(this._settingsInfo.ColumnsToExport);
+                SetCheckedColumns(_settingsInfo.ColumnsToExport);
             }
         }
 
@@ -70,8 +70,8 @@ namespace Library.WPFControls
         {
             List<CheckedListItem> listItems = new List<CheckedListItem>(ColumnsToAdd.Count);
             listItems.AddRange(ColumnsToAdd.Select(name => new CheckedListItem(name, true)));
-            this.ExportColumnsList = listItems;
-            this.ListBoxColumns.ItemsSource = this.ExportColumnsList;
+            ExportColumnsList = listItems;
+            ListBoxColumns.ItemsSource = ExportColumnsList;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Library.WPFControls
         {
             if (ColumnsToCheck.Count > 0)
             {
-                foreach (CheckedListItem listItem in this.ExportColumnsList)
+                foreach (CheckedListItem listItem in ExportColumnsList)
                 {
                     listItem.ItemIsChecked = (ColumnsToCheck.Contains(listItem.ColumnName));
                 }
@@ -101,7 +101,7 @@ namespace Library.WPFControls
         /// 
         private void ChangeColumnControls()
         {
-            this.ListBoxColumns.IsEnabled = (bool)this.RadioButtonExportSome.IsChecked;
+            ListBoxColumns.IsEnabled = (bool)RadioButtonExportSome.IsChecked;
         }
 
         /// <summary>
@@ -110,15 +110,15 @@ namespace Library.WPFControls
         /// 
         private void GetValuesFromForm()
         {
-            this.SettingsInfo.ExportAllColumns     = (bool)this.RadioButtonExportAll.IsChecked;
-            this.SettingsInfo.IncludeColumnHeaders = (bool)this.CheckBoxIncludeHeaders.IsChecked;
-            this.SettingsInfo.ColumnsToExport      = new List<string>();
+            SettingsInfo.ExportAllColumns     = (bool)RadioButtonExportAll.IsChecked;
+            SettingsInfo.IncludeColumnHeaders = (bool)CheckBoxIncludeHeaders.IsChecked;
+            SettingsInfo.ColumnsToExport      = new List<string>();
             
-            if (!this.SettingsInfo.ExportAllColumns)
+            if (!SettingsInfo.ExportAllColumns)
             {
-                foreach (CheckedListItem currItem in this.ExportColumnsList)
+                foreach (CheckedListItem currItem in ExportColumnsList)
                 {
-                    this.SettingsInfo.ColumnsToExport.Add(currItem.ColumnName);
+                    SettingsInfo.ColumnsToExport.Add(currItem.ColumnName);
                 }
             }
         }
@@ -128,17 +128,17 @@ namespace Library.WPFControls
 
         private void ButtonSaveSettings_OnClick(object Sender, RoutedEventArgs E)
         {
-            this.GetValuesFromForm();
+            GetValuesFromForm();
         }
 
         private void RadioButtonExportAll_Checked(object sender, RoutedEventArgs e)
         {
-            this.ChangeColumnControls();
+            ChangeColumnControls();
         }
 
         private void RadioButtonExportSome_Checked(object sender, RoutedEventArgs e)
         {
-            this.ChangeColumnControls();
+            ChangeColumnControls();
         }
 
         #endregion  Event Handlers

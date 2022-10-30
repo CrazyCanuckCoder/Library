@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Library.WinForms
@@ -45,7 +42,7 @@ namespace Library.WinForms
         /// 
         public bool Print(Control ControlToPrint)
         {
-            this.ErrorMessage = "";
+            ErrorMessage = string.Empty;
 
             if (ControlToPrint != null)
             {
@@ -54,15 +51,15 @@ namespace Library.WinForms
                 printDialog.UseEXDialog = true;
                 if (printDialog.ShowDialog() == DialogResult.OK)
                 {
-                    this.Print(ControlToPrint, printDialog.PrinterSettings);
+                    Print(ControlToPrint, printDialog.PrinterSettings);
                 }
             }
             else
             {
-                this.ErrorMessage = "Nothing to print!";
+                ErrorMessage = "Nothing to print!";
             }
 
-            return this.ErrorMessage.IsEmpty();
+            return ErrorMessage == string.Empty;
         }
 
         /// <summary>
@@ -83,7 +80,7 @@ namespace Library.WinForms
         /// 
         public bool Print(Control ControlToPrint, PrinterSettings NewSettings)
         {
-            this.ErrorMessage = "";
+            ErrorMessage = string.Empty;
 
             if (ControlToPrint != null)
             {
@@ -96,37 +93,37 @@ namespace Library.WinForms
                         printDoc.EndPrint += PrintDoc_EndPrint;
                         printDoc.PrinterSettings = NewSettings;
 
-                        this._printImage = this.GeneratePrintImage(ControlToPrint, NewSettings.DefaultPageSettings);
+                        _printImage = GeneratePrintImage(ControlToPrint, NewSettings.DefaultPageSettings);
 
-                        if (this._printImage != null)
+                        if (_printImage != null)
                         {
                             printDoc.Print();
                         }
                         else
                         {
-                            this.ErrorMessage = "Document generation failed, unable to print.";
+                            ErrorMessage = "Document generation failed, unable to print.";
                         }
                     }
                     catch (InvalidPrinterException)
                     {
-                        this.ErrorMessage = "Invalid printer specified.";
+                        ErrorMessage = "Invalid printer specified.";
                     }
                     catch (Exception ex)
                     {
-                        this.ErrorMessage = "Unable to print document.  " + ex.Message;
+                        ErrorMessage = "Unable to print document.  " + ex.Message;
                     }
                 }
                 else
                 {
-                    this.ErrorMessage = "No printer specified.  Please specify a printer to use.";
+                    ErrorMessage = "No printer specified.  Please specify a printer to use.";
                 }
             }
             else
             {
-                this.ErrorMessage = "Nothing to print!";
+                ErrorMessage = "Nothing to print!";
             }
 
-            return this.ErrorMessage.IsEmpty();
+            return ErrorMessage == string.Empty;
         }
 
         /// <summary>
@@ -186,12 +183,12 @@ namespace Library.WinForms
                 }
                 else
                 {
-                    this.ErrorMessage = "No printer specified.  Please specify a printer to use.";
+                    ErrorMessage = "No printer specified.  Please specify a printer to use.";
                 }
             }
             else
             {
-                this.ErrorMessage = "Nothing to print!";
+                ErrorMessage = "Nothing to print!";
             }
 
             return memoryImage;
@@ -207,13 +204,13 @@ namespace Library.WinForms
 
             if (e.PageSettings.Landscape)
             {
-                e.Graphics.DrawImage(this._printImage, Math.Abs(e.PageSettings.PrintableArea.Width  - this._printImage.Height) / ControlPrinterForm.PRINTER_MARGIN_FACTOR,
-                                                       Math.Abs(e.PageSettings.PrintableArea.Height - this._printImage.Width)  / ControlPrinterForm.PRINTER_MARGIN_FACTOR);
+                e.Graphics.DrawImage(_printImage, Math.Abs(e.PageSettings.PrintableArea.Width  - _printImage.Height) / ControlPrinterForm.PRINTER_MARGIN_FACTOR,
+                                                  Math.Abs(e.PageSettings.PrintableArea.Height - _printImage.Width)  / ControlPrinterForm.PRINTER_MARGIN_FACTOR);
             }
             else
             {
-                e.Graphics.DrawImage(this._printImage, Math.Abs(e.PageSettings.PrintableArea.Width  - this._printImage.Width)  / ControlPrinterForm.PRINTER_MARGIN_FACTOR,
-                                                       Math.Abs(e.PageSettings.PrintableArea.Height - this._printImage.Height) / ControlPrinterForm.PRINTER_MARGIN_FACTOR);
+                e.Graphics.DrawImage(_printImage, Math.Abs(e.PageSettings.PrintableArea.Width  - _printImage.Width)  / ControlPrinterForm.PRINTER_MARGIN_FACTOR,
+                                                  Math.Abs(e.PageSettings.PrintableArea.Height - _printImage.Height) / ControlPrinterForm.PRINTER_MARGIN_FACTOR);
             }
         }
 
@@ -221,7 +218,7 @@ namespace Library.WinForms
 
         private void PrintDoc_EndPrint(object sender, PrintEventArgs e)
         {
-            this._printImage = null;
+            _printImage = null;
         }
     }
 }
