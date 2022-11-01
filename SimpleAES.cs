@@ -71,16 +71,16 @@ namespace Library
         private byte[] Encrypt(string TextValue)
         {
             //Translates our text value into a byte array.
-            Byte[] pepper = _utfEncoder.GetBytes(TextValue);
+            byte[] pepper = _utfEncoder.GetBytes(TextValue);
             // add salt
-            Byte[] salt = new byte[Salt];
+            byte[] salt = new byte[Salt];
             RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
             crypto.GetNonZeroBytes(salt);
-            Byte[] bytes = new byte[2 * Salt + pepper.Length];
-            System.Buffer.BlockCopy(salt, 0, bytes, 0, Salt);
-            System.Buffer.BlockCopy(pepper, 0, bytes, Salt, pepper.Length);
+            byte[] bytes = new byte[2 * Salt + pepper.Length];
+            Buffer.BlockCopy(salt, 0, bytes, 0, Salt);
+            Buffer.BlockCopy(pepper, 0, bytes, Salt, pepper.Length);
             crypto.GetNonZeroBytes(salt);
-            System.Buffer.BlockCopy(salt, 0, bytes, Salt + pepper.Length, Salt);
+            Buffer.BlockCopy(salt, 0, bytes, Salt + pepper.Length, Salt);
 
             //Used to stream the data in and out of the CryptoStream.
             MemoryStream memoryStream = new MemoryStream();
@@ -126,14 +126,14 @@ namespace Library
 
             #region Read the decrypted value from the stream.
             encryptedStream.Position = 0;
-            Byte[] decryptedBytes = new Byte[encryptedStream.Length];
+            byte[] decryptedBytes = new byte[encryptedStream.Length];
             encryptedStream.Read(decryptedBytes, 0, decryptedBytes.Length);
             encryptedStream.Close();
             #endregion
             // remove salt
             int len = decryptedBytes.Length - 2 * Salt;
-            Byte[] pepper = new Byte[len];
-            System.Buffer.BlockCopy(decryptedBytes, Salt, pepper, 0, len);
+            byte[] pepper = new byte[len];
+            Buffer.BlockCopy(decryptedBytes, Salt, pepper, 0, len);
             return _utfEncoder.GetString(pepper);
         }
     }

@@ -218,14 +218,7 @@ namespace Library
         /// 
         public override string ToString()
         {
-            string addressText = "";
-
-            if (!Equals(IPv4Address.Empty))
-            {
-                addressText = $"{Quadrants[0]}.{Quadrants[1]}.{Quadrants[2]}.{Quadrants[3]}";
-            }
-
-            return addressText;
+            return $"{Quadrants[0]}.{Quadrants[1]}.{Quadrants[2]}.{Quadrants[3]}";
         }
 
 
@@ -298,7 +291,7 @@ namespace Library
         /// 
         public static IPv4Address Parse(string IPAddress)
         {
-            IPv4Address newAddress = IPv4Address.Empty;
+            IPv4Address newAddress = Empty;
 
             if (!string.IsNullOrEmpty(IPAddress))
             {
@@ -331,23 +324,23 @@ namespace Library
         public static bool TryParse(string IPAddress, out IPv4Address NewAddress)
         {
             bool parseSuccess = true;
-            NewAddress = IPv4Address.Empty;
+            NewAddress = Empty;
 
             if (!string.IsNullOrEmpty(IPAddress))
             {
                 try
                 {
-                    NewAddress = IPv4Address.Parse(IPAddress);
+                    NewAddress = Parse(IPAddress);
                 }
                 catch (FormatException)
                 {
                     parseSuccess = false;
-                    NewAddress = IPv4Address.Empty;
+                    NewAddress = Empty;
                 }
                 catch (ArgumentException)
                 {
                     parseSuccess = false;
-                    NewAddress = IPv4Address.Empty;
+                    NewAddress = Empty;
                 }
             }
             else

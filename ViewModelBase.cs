@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Library
 {
@@ -22,20 +19,9 @@ namespace Library
         /// The name of the changed property.
         /// </param>
         /// 
-        protected void RaisePropertyChangedEvent(string PropertyName)
+        protected void RaisePropertyChangedEvent([CallerMemberName] string PropertyName = null)
         {
-            if (PropertyName != null)
-            {
-                if (PropertyChanged != null)
-                {
-                    PropertyChangedEventArgs e = new PropertyChangedEventArgs(PropertyName);
-                    PropertyChanged(this, e);
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException("PropertyName");
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
     }
 }
